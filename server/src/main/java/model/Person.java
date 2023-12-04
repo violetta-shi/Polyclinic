@@ -1,13 +1,26 @@
 package model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class Person implements Serializable {
+@Entity
+@Table(name = "person")
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "person_id")
     private int personId;
+    @Column(name = "name")
     private String name;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "patronymic")
     private String patronymic;
+    @Column(name = "phone")
     private String phone;
+
+    @OneToOne(mappedBy = "person")
+    private User user;
 
     public Person(){
         this.personId = -1;
@@ -15,13 +28,31 @@ public class Person implements Serializable {
         this.lastName = "";
         this.patronymic = "";
         this.phone = "";
+        this.user = null;
     }
-    public Person(int id, String name, String lastName, String patronymic, String phone) {
+    public Person(int id, String name, String lastName, String patronymic, String phone, User user) {
         this.personId = id;
         this.name = name;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.phone = phone;
+        this.user = user;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setId(int id) {

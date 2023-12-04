@@ -1,5 +1,4 @@
-package service;
-
+package interfaces;
 import java.util.List;
 
 public interface Service<T> {
@@ -14,4 +13,3 @@ public interface Service<T> {
     List<T> findAllEntities();
 
 }
-

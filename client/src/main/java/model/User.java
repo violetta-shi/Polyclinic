@@ -1,5 +1,7 @@
 package model;
 
+import enums.Roles;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -7,14 +9,14 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String role;
-    private int personId;
+    private Person person;
 
-    public User(int userId, String login, String password, String role, int personId) {
+    public User(int userId, String login, String password, String role, Person person) {
         this.userId = userId;
         this.login = login;
         this.password = password;
         this.role = role;
-        this.personId = personId;
+        this.person = person;
     }
 
     public User(){
@@ -22,7 +24,19 @@ public class User implements Serializable {
         this.login = "";
         this.password = "";
         this.role = "";
-        this.personId = -1;
+        this.person = null;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public int getUserId() {
@@ -53,15 +67,8 @@ public class User implements Serializable {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(Roles role) {
+        this.role = role.toString();
     }
 
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
-    }
 }

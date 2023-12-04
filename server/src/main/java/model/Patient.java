@@ -1,7 +1,11 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "patinet")
 public class Patient implements Serializable {
     private int patientId;
     private String birthDate;
