@@ -23,7 +23,8 @@ public class Login {
     public TextField textfieldLogin;
     public Button buttonRegister;
     public Button buttonLogin;
-    public Label labelMessage;
+    public Label erorLabel;
+
 
     public void Login_Pressed(ActionEvent actionEvent) throws IOException {
         User user = new User();
@@ -37,15 +38,15 @@ public class Login {
         String answer = ClientSocket.getInstance().getInStream().readLine();
         Response responseModel = new Gson().fromJson(answer, Response.class);
         if (responseModel.getResponseStatus() == ResponseStatus.OK) {
-            labelMessage.setVisible(false);
+            //labelMessage.setVisible(false);
             ClientSocket.getInstance().setUser(new Gson().fromJson(responseModel.getResponseData(), User.class));
             Stage stage = (Stage) buttonLogin.getScene().getWindow();
             Parent root;
-            root = FXMLLoader.load(getClass().getResource("/Flights.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/MainAdmin.fxml"));
             Scene newScene = new Scene(root);
             stage.setScene(newScene);
         } else {
-            labelMessage.setVisible(true);
+            erorLabel.setVisible(true);
         }
     }
 

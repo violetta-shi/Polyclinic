@@ -1,22 +1,34 @@
 package model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class Doctor implements Serializable {
+@Entity
+@Table(name = "doctor")
+public class Doctor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "doctor_id")
     private int doctorId;
+    @Column(name = "qualification")
     private String qualification;
+    @Column(name = "specialization")
     private String specialization;
+    @Column(name = "room")
     private String room;
+    @Column(name = "schedule")
     private String schedule;
-    private int userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, int userId) {
+    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user) {
         this.doctorId = doctorId;
         this.qualification = qualification;
         this.specialization = specialization;
         this.room = room;
         this.schedule = schedule;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Doctor(){
@@ -25,7 +37,7 @@ public class Doctor implements Serializable {
         this.specialization = "";
         this.room = "";
         this.schedule = "";
-        this.userId = -1;
+        this.user = null;
     }
 
     public int getDoctorId() {
@@ -68,11 +80,11 @@ public class Doctor implements Serializable {
         this.schedule = schedule;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

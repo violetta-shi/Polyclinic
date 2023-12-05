@@ -10,9 +10,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         ClientSocket.getInstance().getSocket();
-        Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        primaryStage.setMinHeight(580);
+        primaryStage.setMinWidth(350);
         primaryStage.setTitle("Поликлиника");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

@@ -1,25 +1,35 @@
 package model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class Admin implements Serializable {
+@Entity
+@Table(name = "admin")
+public class Admin{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "admin_id")
     private int adminId;
+    @Column(name = "block")
     private String block;
+    @Column(name = "rights")
     private String rights;
-    private int userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Admin(int adminId, String block, String rights, int userId) {
+    public Admin(int adminId, String block, String rights, User user) {
         this.adminId = adminId;
         this.block = block;
         this.rights = rights;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Admin(){
         this.adminId = -1;
         this.block = "";
         this.rights = "";
-        this.userId = -1;
+        this.user = null;
     }
 
     public int getAdminId() {
@@ -46,11 +56,11 @@ public class Admin implements Serializable {
         this.rights = rights;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

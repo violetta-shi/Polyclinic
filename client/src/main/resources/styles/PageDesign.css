@@ -1,0 +1,31 @@
+.white-bg{
+    -fx-background-color: #fff;
+}
+.radius{
+    -fx-background-radius: 5px;
+}
+
+.textfield-l{
+    -fx-border-color: #000;
+    -fx-border-width: 0.3px;
+    -fx-font-family: Tahoma;
+}
+
+.textfield-l:focused{
+    -fx-border-color: linear-gradient(to bottom right, #188ba7, #306090);
+    -fx-border-width: 1px;
+}
+.btn-l{
+    -fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-style: 14px;
+    -fx-font-family: Arial;
+}
+.btn-l:hover{
+    -fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);
+}
+
+
+
+

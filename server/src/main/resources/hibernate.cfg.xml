@@ -17,6 +17,10 @@
        <!-- <mapping class="condorcet.Models.Entities.Flight" />-->
         <mapping class="model.User" />
         <mapping class="model.Person" />
+        <mapping class="model.Admin" />
+        <mapping class="model.Doctor" />
+        <mapping class="model.Address" />
+        <mapping class="model.Patient" />
         <!--<mapping class="condorcet.Models.Entities.UserMark" />
         <mapping class="condorcet.Models.Entities.Passenger" />
         <mapping class="condorcet.Models.Entities.PersonData" />

@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
     @Column(name = "login")
@@ -22,6 +22,10 @@ public class User {
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
+    @OneToOne(mappedBy = "user")
+    private Admin admin;
+    @OneToOne(mappedBy = "user")
+    private Doctor doctor;
 
     public User(int userId, String login, String password, String role, String workPhone, Person person) {
         this.userId = userId;

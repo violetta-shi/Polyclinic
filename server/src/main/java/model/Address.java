@@ -1,14 +1,28 @@
 package model;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
-public class Address implements Serializable {
+@Entity
+@Table(name = "address")
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private int addressId;
+    @Column(name = "city")
     private String city;
+    @Column(name = "district")
     private String district;
+    @Column(name = "street")
     private String street;
+    @Column(name = "house_number")
     private String houseNumber;
+    @Column(name = "apartment_number")
     private int apartmentNumber;
+    @OneToMany(mappedBy = "address")
+    private List<Patient> patients;
 
     public Address(int addressId, String city, String district, String street, String houseNumber, int apartamentNumber) {
         this.addressId = addressId;
@@ -74,5 +88,13 @@ public class Address implements Serializable {
 
     public void setApartmentNumber(int apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
     }
 }

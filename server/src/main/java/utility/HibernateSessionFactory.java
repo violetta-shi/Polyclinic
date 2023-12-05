@@ -1,7 +1,6 @@
 package utility;
 
-import model.Person;
-import model.User;
+import model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -20,6 +19,10 @@ public class HibernateSessionFactory {
                 //configuration.addAnnotatedClass(PersonData.class);
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Person.class);
+                configuration.addAnnotatedClass(Admin.class);
+                configuration.addAnnotatedClass(Doctor.class);
+                configuration.addAnnotatedClass(Address.class);
+                configuration.addAnnotatedClass(Patient.class);
                 //configuration.addAnnotatedClass(UserMark.class);
                 //configuration.addAnnotatedClass(Passenger.class);
                 //configuration.addAnnotatedClass(Aircraft.class);
