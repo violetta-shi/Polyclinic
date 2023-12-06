@@ -21,6 +21,7 @@
         <mapping class="model.Doctor" />
         <mapping class="model.Address" />
         <mapping class="model.Patient" />
+        <mapping class="model.Disease" />
         <!--<mapping class="condorcet.Models.Entities.UserMark" />
         <mapping class="condorcet.Models.Entities.Passenger" />
         <mapping class="condorcet.Models.Entities.PersonData" />

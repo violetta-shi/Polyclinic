@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "patient")
@@ -20,13 +22,21 @@ public class Patient implements Serializable {
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "patient_disease",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "disease_id")
+    )
+    private Set<Disease> diseases = new HashSet<>();
 
-    public Patient(int patientId, String birthDate, String passportId, Person person, Address address) {
+    public Patient(int patientId, String birthDate, String passportId, Person person, Address address, Set<Disease> diseses) {
         this.patientId = patientId;
         this.birthDate = birthDate;
         this.passportId = passportId;
         this.person = person;
         this.address = address;
+        this.diseases = diseses;
     }
 
     public Patient(){
@@ -35,6 +45,7 @@ public class Patient implements Serializable {
         this.passportId = "";
         this.person = null;
         this.address = null;
+        this.diseases = null;
     }
 
     public int getPatientId() {
@@ -75,5 +86,13 @@ public class Patient implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Disease> getDiseses() {
+        return diseases;
+    }
+
+    public void setDiseses(Set<Disease> diseses) {
+        this.diseases = diseses;
     }
 }
