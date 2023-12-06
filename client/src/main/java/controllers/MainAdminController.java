@@ -171,6 +171,17 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Label top_username;
+    private int adminId;
+    private String adminLogin;
+    public MainAdminController(int adminId, String adminLogin){
+        this.adminId = adminId;
+        this.adminLogin = adminLogin;
+    }
+    public void displayAdminIDAndUsername(){
+        nav_usermane.setText(adminLogin);
+        nav_adminID.setText(Integer.toString(adminId));
+        top_username.setText(adminLogin);
+    }
 
     public void switchForm(ActionEvent event){
         if(event.getSource() == dashboard_btn){
@@ -210,5 +221,6 @@ public class MainAdminController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
+        displayAdminIDAndUsername();
     }
 }

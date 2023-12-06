@@ -9,10 +9,11 @@ import java.util.*;
 
 import com.google.gson.Gson;
 import enums.ResponseStatus;
+import model.Admin;
+import model.Doctor;
 import model.Person;
 import model.User;
-import services.PersonService;
-import services.UserService;
+import services.*;
 import tcp.*;
 
 
@@ -26,6 +27,10 @@ public class ClientThread implements Runnable {
 
     private UserService userService = new UserService();
     private PersonService personService = new PersonService();
+    private AdminService adminService = new AdminService();
+    private AddressService addressService = new AddressService();
+    private DoctorService doctorService = new DoctorService();
+    private PatientService patientService = new PatientService();
 
 
     public ClientThread(Socket clientSocket) throws IOException {
@@ -70,6 +75,19 @@ public class ClientThread implements Runnable {
                         }
                         break;
                     }
+                    case GET_ADMIN:{
+                        User requestUser = gson.fromJson(request.getRequestMessage(), User.class);
+                        Admin admin = adminService.findEntityByUserId(requestUser);
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(admin));
+                        break;
+                    }
+                    case GET_DOCTOR:{
+                        User requestUser = gson.fromJson(request.getRequestMessage(), User.class);
+                        Doctor doctor = doctorService.findEntityByUserId(requestUser);
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctor));
+                        break;
+                    }
+
                     /*case ADD_FLIGHT:
                         Flight flight = gson.fromJson(request.getRequestMessage(), Flight.class);
                         routeService.saveEntity(flight.getRoute());

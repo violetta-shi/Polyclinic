@@ -2,5 +2,7 @@ package enums;
 
 public enum RequestType {
     REGISTER,
-    LOGIN
+    LOGIN,
+    GET_ADMIN,
+    GET_DOCTOR
 }

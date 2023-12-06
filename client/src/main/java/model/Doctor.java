@@ -8,15 +8,15 @@ public class Doctor implements Serializable {
     private String specialization;
     private String room;
     private String schedule;
-    private int userId;
+    private User user;
 
-    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, int userId) {
+    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user) {
         this.doctorId = doctorId;
         this.qualification = qualification;
         this.specialization = specialization;
         this.room = room;
         this.schedule = schedule;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Doctor(){
@@ -25,7 +25,7 @@ public class Doctor implements Serializable {
         this.specialization = "";
         this.room = "";
         this.schedule = "";
-        this.userId = -1;
+        this.user = null;
     }
 
     public int getDoctorId() {
@@ -68,11 +68,11 @@ public class Doctor implements Serializable {
         this.schedule = schedule;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

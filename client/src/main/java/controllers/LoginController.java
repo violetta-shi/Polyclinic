@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import messages.AlertMessage;
+import model.Admin;
+import model.Doctor;
 import model.Person;
 import model.User;
 import tcp.Request;
@@ -115,16 +117,53 @@ public class LoginController implements Initializable {
 */             String data = responseModel.getResponseData();
                User user1 = new Gson().fromJson(data, User.class);
                Roles role = Roles.valueOf(user1.getRole());
+               FXMLLoader loader;
+               Parent root = null;
+               Stage stage;
                switch (role){
                    case User:
                        break;
                    case Admin:
-                       Parent root = FXMLLoader.load(getClass().getResource("/mainAdmin.fxml"));
-                       Stage stage = new Stage();
+                       requestModel.setRequestMessage(new Gson().toJson(user1));
+                       requestModel.setRequestType(RequestType.GET_ADMIN);
+                       ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                       ClientSocket.getInstance().getOut().flush();
+                       answer = ClientSocket.getInstance().getInStream().readLine();
+                       responseModel = new Gson().fromJson(answer, Response.class);
+                       data = responseModel.getResponseData();
+                       Admin admin = new Gson().fromJson(data, Admin.class);
+                       loader = new FXMLLoader(getClass().getResource("/mainAdmin.fxml"));
+                       MainAdminController adminController = new MainAdminController(admin.getAdminId(), admin.getUser().getLogin());
+                       loader.setController(adminController);
+                       root = loader.load();;
+                       stage = new Stage();
                        stage.setTitle("Admin Portal");
                        stage.setScene(new Scene(root));
                        stage.show();
                        break;
+                   case Doctor:{
+                       requestModel.setRequestMessage(new Gson().toJson(user1));
+                       requestModel.setRequestType(RequestType.GET_DOCTOR);
+                       ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                       ClientSocket.getInstance().getOut().flush();
+                       answer = ClientSocket.getInstance().getInStream().readLine();
+                       responseModel = new Gson().fromJson(answer, Response.class);
+                       data = responseModel.getResponseData();
+                       Doctor doctor = new Gson().fromJson(data, Doctor.class);
+                       loader = new FXMLLoader(getClass().getResource("/doctorMainForm.fxml"));
+                       MainDoctorController doctorController = new MainDoctorController(doctor.getDoctorId(), doctor.getUser().getLogin());
+                       try {
+                           loader.setController(doctorController);
+                           root = loader.load();
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       }
+                       stage = new Stage();
+                       stage.setTitle("Doctor Portal");
+                       stage.setScene(new Scene(root));
+                       stage.show();
+                       break;
+                   }
                }
 
            } else {
