@@ -3,6 +3,7 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,14 +30,17 @@ public class Patient implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "disease_id")
     )
     private Set<Disease> diseases = new HashSet<>();
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    private List<Visit> visits;
 
-    public Patient(int patientId, String birthDate, String passportId, Person person, Address address, Set<Disease> diseses) {
+    public Patient(int patientId, String birthDate, String passportId, Person person, Address address, Set<Disease> diseses, List<Visit> visits) {
         this.patientId = patientId;
         this.birthDate = birthDate;
         this.passportId = passportId;
         this.person = person;
         this.address = address;
         this.diseases = diseses;
+        this.visits = visits;
     }
 
     public Patient(){
@@ -46,6 +50,7 @@ public class Patient implements Serializable {
         this.person = null;
         this.address = null;
         this.diseases = null;
+        this.visits = null;
     }
 
     public int getPatientId() {
@@ -94,5 +99,21 @@ public class Patient implements Serializable {
 
     public void setDiseses(Set<Disease> diseses) {
         this.diseases = diseses;
+    }
+
+    public Set<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(Set<Disease> diseases) {
+        this.diseases = diseases;
+    }
+
+    public List<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
     }
 }

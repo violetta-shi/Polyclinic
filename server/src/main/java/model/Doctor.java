@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "doctor")
@@ -21,14 +22,17 @@ public class Doctor {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
+    private List<Visit> visits;
 
-    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user) {
+    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user, List<Visit> visits) {
         this.doctorId = doctorId;
         this.qualification = qualification;
         this.specialization = specialization;
         this.room = room;
         this.schedule = schedule;
         this.user = user;
+        this.visits = visits;
     }
 
     public Doctor(){
@@ -38,6 +42,7 @@ public class Doctor {
         this.room = "";
         this.schedule = "";
         this.user = null;
+        this.visits = null;
     }
 
     public int getDoctorId() {
@@ -86,5 +91,13 @@ public class Doctor {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
     }
 }

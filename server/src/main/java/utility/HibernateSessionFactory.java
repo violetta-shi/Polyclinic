@@ -24,6 +24,7 @@ public class HibernateSessionFactory {
                 configuration.addAnnotatedClass(Address.class);
                 configuration.addAnnotatedClass(Patient.class);
                 configuration.addAnnotatedClass(Disease.class);
+                configuration.addAnnotatedClass(Visit.class);
                 //configuration.addAnnotatedClass(UserMark.class);
                 //configuration.addAnnotatedClass(Passenger.class);
                 //configuration.addAnnotatedClass(Aircraft.class);
