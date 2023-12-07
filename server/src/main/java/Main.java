@@ -41,6 +41,10 @@ public class Main {
         }
     }
 
+    public void appoitmentInsertBtn(){
+
+    }
+
     @Override
     protected void finalize() throws IOException {
         serverSocket.close();

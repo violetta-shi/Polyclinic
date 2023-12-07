@@ -45,6 +45,23 @@ public class Person {
         this.user = user;
         this.patient = patient;
     }
+    public Person(String name, String lastName, String patronymic, String phone, String gender, User user, Patient patient) {
+        this.name = name;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+        this.gender = gender;
+        this.user = user;
+        this.patient = patient;
+    }
+    public Person(String name, String lastName, String patronymic, String phone, String gender) {
+        this.name = name;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+        this.gender = gender;
+    }
+
 
     public int getPersonId() {
         return personId;

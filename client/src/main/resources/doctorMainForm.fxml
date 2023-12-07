@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -310,7 +311,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="singlePatinet_form" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="singlePatinet_form" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="322.0" prefWidth="328.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="8.800000000000068" AnchorPane.rightAnchor="6.7999999999999545" AnchorPane.topAnchor="228.0000000000001">
                                  <styleClass>
@@ -324,16 +325,20 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="26.0" layoutY="99.0" text="Patient Gender:" AnchorPane.topAnchor="99.20000000000005" />
-                                    <Label layoutX="18.0" layoutY="133.0" text="Modile Number:" AnchorPane.topAnchor="132.80000000000004" />
-                                    <Label layoutX="13.0" layoutY="68.0" prefHeight="18.0" prefWidth="97.0" text="Patient Lastname:" AnchorPane.topAnchor="68.00000000000003" />
-                                    <Label fx:id="patinet_PI_lastname" layoutX="111.0" layoutY="69.0" text="...................." AnchorPane.topAnchor="68.80000000000004" />
-                                    <Label fx:id="patinet_PI_gender" layoutX="111.0" layoutY="99.0" text="...................." AnchorPane.topAnchor="99.20000000000005" />
-                                    <Label fx:id="patinet_PI_number" layoutX="109.0" layoutY="133.0" text="...................." AnchorPane.topAnchor="132.80000000000004" />
-                                    <Label layoutX="57.0" layoutY="161.0" text="Address:" AnchorPane.topAnchor="160.80000000000004" />
-                                    <Label fx:id="patinet_PI_address" layoutX="110.0" layoutY="161.0" text="...................." AnchorPane.topAnchor="160.80000000000004" />
-                                    <Button fx:id="patinet_addBtn" layoutX="26.0" layoutY="251.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Add" AnchorPane.bottomAnchor="37.000000000000036" AnchorPane.leftAnchor="26.0" />
+                                    <Label layoutX="35.0" layoutY="136.0" text="Patient Gender:" AnchorPane.topAnchor="136.0" />
+                                    <Label layoutX="32.0" layoutY="161.0" text="Modile Number:" AnchorPane.topAnchor="161.0" />
+                                    <Label layoutX="23.0" layoutY="84.0" prefHeight="18.0" prefWidth="97.0" text="Patient Lastname:" AnchorPane.topAnchor="84.0" />
+                                    <Label fx:id="patinet_PI_lastname" layoutX="121.0" layoutY="85.0" text="...................." AnchorPane.topAnchor="85.0" />
+                                    <Label fx:id="patinet_PI_gender" layoutX="120.0" layoutY="136.0" text="...................." AnchorPane.topAnchor="136.0" />
+                                    <Label fx:id="patinet_PI_number" layoutX="123.0" layoutY="161.0" text="...................." AnchorPane.topAnchor="161.0" />
+                                    <Label layoutX="70.0" layoutY="186.0" text="Address:" AnchorPane.topAnchor="186.0" />
+                                    <Label fx:id="patinet_PI_address" alignment="TOP_LEFT" layoutX="123.0" layoutY="186.0" prefHeight="56.0" prefWidth="182.0" text="...................." AnchorPane.topAnchor="186.0" />
+                                    <Button fx:id="patinet_addBtn" layoutX="26.0" layoutY="251.0" mnemonicParsing="false" onAction="#patientAddBrn" prefHeight="34.0" prefWidth="127.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Add" AnchorPane.bottomAnchor="37.000000000000036" AnchorPane.leftAnchor="26.0" />
                                     <Button fx:id="patinet_recordBtn" layoutX="179.0" layoutY="251.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="126.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Record" AnchorPane.bottomAnchor="37.000000000000036" AnchorPane.rightAnchor="22.599999999999994" />
+                                    <Label layoutX="15.0" layoutY="109.0" prefHeight="18.0" prefWidth="106.0" text="Patient Patronymic:" AnchorPane.topAnchor="109.0" />
+                                    <Label fx:id="patinet_PI_patronymic" layoutX="121.0" layoutY="110.0" text="...................." />
+                                    <Label layoutX="23.0" layoutY="59.0" prefHeight="18.0" prefWidth="97.0" text="Patient Name:" AnchorPane.topAnchor="59.0" />
+                                    <Label fx:id="patinet_PI_name" layoutX="121.0" layoutY="60.0" text="...................." />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="537.0" prefWidth="526.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="7.2000000000000455" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="344.0" AnchorPane.topAnchor="14.0">
@@ -361,12 +366,12 @@
                                     </ComboBox>
                                     <Label layoutX="16.0" layoutY="245.0" text="Mobile Number" />
                                     <TextField fx:id="patinet_patientNumber" layoutX="16.0" layoutY="263.0" prefHeight="26.0" prefWidth="244.0" promptText="Ex. 336267028" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="266.4" AnchorPane.topAnchor="263.0" />
-                                    <Label layoutX="18.0" layoutY="297.0" text="Password" />
-                                    <TextField fx:id="patinet_patientPassword" layoutX="16.0" layoutY="315.0" prefHeight="26.0" prefWidth="244.0" promptText="не менее 8 символов" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="266.4" AnchorPane.topAnchor="315.0" />
+                                    <Label layoutX="273.0" layoutY="304.0" text="Password" />
+                                    <TextField fx:id="patinet_patientPassword" layoutX="271.0" layoutY="322.0" prefHeight="26.0" prefWidth="244.0" promptText="не менее 8 символов" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="11.399999999999977" AnchorPane.topAnchor="322.0" />
                                     <Label layoutX="21.0" layoutY="349.0" text="Address" />
                                     <Label layoutX="18.0" layoutY="139.0" text="Patient' Patronymic" />
                                     <TextField fx:id="patinet_patientPatronymic" layoutX="14.0" layoutY="157.0" prefHeight="26.0" prefWidth="490.0" promptText="Ex. Иванович" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="21.600000000000023" AnchorPane.topAnchor="157.0" />
-                                    <Button fx:id="patinet_confirmBtn" layoutX="126.0" layoutY="482.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="266.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Confirm" AnchorPane.bottomAnchor="13.200000000000024" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="133.60000000000002" />
+                                    <Button fx:id="patinet_confirmBtn" layoutX="126.0" layoutY="482.0" mnemonicParsing="false" onAction="#patientConfirnBtn" prefHeight="42.0" prefWidth="266.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Confirm" AnchorPane.bottomAnchor="13.200000000000024" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="133.60000000000002" />
                                     <Label layoutX="33.0" layoutY="367.0" text="Sity" />
                                     <TextField fx:id="patinet_patientSity1" layoutX="21.0" layoutY="387.0" prefHeight="26.0" prefWidth="126.0" promptText="Ex. Минск" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                     <Label layoutX="184.0" layoutY="367.0" text="District" />
@@ -377,6 +382,12 @@
                                     <TextField fx:id="patinet_patientHouse1" layoutX="98.0" layoutY="431.0" prefHeight="26.0" prefWidth="126.0" promptText="Ex. 15" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                     <Label layoutX="282.0" layoutY="413.0" text="Apartment Number's" />
                                     <TextField fx:id="patinet_patientApartment1" layoutX="282.0" layoutY="431.0" prefHeight="26.0" prefWidth="126.0" promptText="Ex. 26" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label layoutX="18.0" layoutY="304.0" text="UserName" />
+                                    <TextField fx:id="patient_userName" layoutX="16.0" layoutY="322.0" prefHeight="26.0" prefWidth="244.0" promptText="не менее 8 символов" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label layoutX="271.0" layoutY="246.0" text="Birth Date" />
+                                    <TextField fx:id="patinet_patientBDate" layoutX="271.0" layoutY="264.0" prefHeight="26.0" prefWidth="244.0" promptText="Ex. 31-12-2004" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label layoutX="272.0" layoutY="190.0" text="Passport ID" />
+                                    <TextField fx:id="patinet_patientPassportId" layoutX="272.0" layoutY="208.0" prefHeight="26.0" prefWidth="244.0" promptText="Ex. MC3567987" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="202.0" prefWidth="328.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.rightAnchor="6.7999999999999545" AnchorPane.topAnchor="13.600000000000051">
@@ -401,7 +412,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="appoitment_form" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="appoitment_form" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="314.0" prefWidth="848.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="230.4000000000001" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.399999999999977" AnchorPane.topAnchor="14.0">
                                  <styleClass>
@@ -413,14 +424,12 @@
                                     <TableView fx:id="appoitments_tableView" layoutX="14.0" layoutY="46.0" prefHeight="254.0" prefWidth="808.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="13.600000000000108" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="25.600000000000023" AnchorPane.topAnchor="46.0">
                                        <columns>
                                           <TableColumn fx:id="appoitment_col_AppoitmentID" prefWidth="75.0" text="Appoitment ID" />
-                                          <TableColumn fx:id="appoitment_col_lastname" prefWidth="75.0" text="PatientID" />
-                                          <TableColumn fx:id="appoitment_col_gender" prefWidth="75.0" text="DoctorID" />
-                                          <TableColumn fx:id="appoitment_col_contact" prefWidth="75.0" text="Contact" />
+                                          <TableColumn fx:id="appoitment_col_patientID" prefWidth="75.0" text="PatientID" />
+                                          <TableColumn fx:id="appoitment_col_doctorID" prefWidth="75.0" text="DoctorID" />
                                           <TableColumn fx:id="appoitment_col_description" prefWidth="75.0" text="Description" />
+                                          <TableColumn fx:id="appoitment_col_treatment" prefWidth="75.0" text="Tratment" />
                                           <TableColumn fx:id="appoitment_col_date" prefWidth="75.0" text="Date" />
-                                          <TableColumn fx:id="appoitment_col_dateModify" prefWidth="75.0" text=" Date Modify" />
-                                          <TableColumn fx:id="appoitment_col_doctorID" prefWidth="75.0" text="Disease" />
-                                          <TableColumn fx:id="appoitment_col_address" prefWidth="75.0" text="Address" />
+                                          <TableColumn fx:id="appoitment_col_disease" prefWidth="75.0" text="Disease" />
                                           <TableColumn fx:id="appoitment_col_status" minWidth="6.4000244140625" prefWidth="42.4000244140625" text="Status" />
                                        </columns>
                                        <columnResizePolicy>
@@ -441,38 +450,24 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <Label layoutX="21.0" layoutY="14.0" text="Appoitment ID:" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="14.0" />
-                                    <TextField fx:id="appoitment_appoitmentID" layoutX="108.0" layoutY="10.0" styleClass="textfield-2" AnchorPane.leftAnchor="108.0" AnchorPane.topAnchor="10.0" />
-                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="56.0" prefHeight="18.0" prefWidth="88.0" text="Patient ID:" textAlignment="RIGHT" AnchorPane.leftAnchor="20.8" />
-                                    <TextField fx:id="appoitment_lastname" layoutX="108.0" layoutY="53.0" styleClass="textfield-2" AnchorPane.leftAnchor="108.0" />
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="22.0" prefHeight="18.0" prefWidth="88.0" text="Patient ID:" textAlignment="RIGHT" AnchorPane.leftAnchor="15.0" />
+                                    <TextField fx:id="appoitment_patientID" layoutX="108.0" layoutY="19.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="108.0" />
                                     <Label alignment="CENTER_RIGHT" layoutX="277.0" layoutY="20.0" prefHeight="18.0" prefWidth="78.0" text="Description:" textAlignment="RIGHT" />
-                                    <TextField fx:id="appoitment_description" layoutX="359.0" layoutY="16.0" styleClass="textfield-2" AnchorPane.bottomAnchor="168.8" AnchorPane.leftAnchor="359.0" AnchorPane.topAnchor="16.0" />
-                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="265.0" layoutY="62.0" prefHeight="18.0" prefWidth="89.0" text="Diagnosist:" textAlignment="RIGHT" />
-                                    <TextField fx:id="appoitment_diagnosist" layoutX="359.0" layoutY="59.0" styleClass="textfield-2" />
-                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="95.0" prefHeight="18.0" prefWidth="88.0" text="Doctor ID:" textAlignment="RIGHT" AnchorPane.bottomAnchor="94.6" AnchorPane.leftAnchor="15.0" />
-                                    <ComboBox fx:id="appoitment_gender" layoutX="107.0" layoutY="91.0" prefWidth="150.0" promptText="Choose Your Gender" styleClass="textfield-2" AnchorPane.bottomAnchor="93.8" AnchorPane.leftAnchor="107.0" />
-                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="265.0" layoutY="96.0" prefHeight="18.0" prefWidth="89.0" text="Tratment:" textAlignment="RIGHT" />
-                                    <TextField fx:id="appoitment_tratment" layoutX="359.0" layoutY="93.0" styleClass="textfield-2" />
-                                    <Label layoutX="530.0" layoutY="11.0" text="Sity" />
-                                    <TextField fx:id="appoitment_sity" layoutX="531.0" layoutY="29.0" prefHeight="26.0" prefWidth="121.0" promptText="Ex. Минск" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="531.0" AnchorPane.topAnchor="29.0" />
-                                    <Label layoutX="675.0" layoutY="10.0" text="District" AnchorPane.topAnchor="10.0" />
-                                    <TextField fx:id="appoitment_district" layoutX="675.0" layoutY="28.0" prefHeight="26.0" prefWidth="126.0" promptText="Ex. Советский" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.topAnchor="28.0" />
-                                    <Label layoutX="531.0" layoutY="62.0" text="Street" />
-                                    <TextField fx:id="appoitment_street" layoutX="531.0" layoutY="80.0" prefHeight="26.0" prefWidth="126.0" promptText="Ex. Леонида Беды" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="531.0" AnchorPane.topAnchor="80.0" />
-                                    <Label layoutX="667.0" layoutY="61.0" text="House Number's">
-                                       <font>
-                                          <Font size="11.0" />
-                                       </font></Label>
-                                    <TextField fx:id="appoitment_houseNum" layoutX="667.0" layoutY="81.0" prefHeight="26.0" prefWidth="83.0" promptText="Ex. 15" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.leftAnchor="667.0" AnchorPane.topAnchor="81.0" />
-                                    <Label layoutX="764.0" layoutY="61.0" text="Flat Number's">
-                                       <font>
-                                          <Font size="11.0" />
-                                       </font></Label>
-                                    <TextField fx:id="appoitment_flatNum" layoutX="763.0" layoutY="81.0" prefHeight="26.0" prefWidth="77.0" promptText="Ex. 26" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="100.6" />
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="55.0" prefHeight="18.0" prefWidth="88.0" text="Doctor ID:" textAlignment="RIGHT" AnchorPane.bottomAnchor="134.6" AnchorPane.leftAnchor="15.0" />
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="14.0" layoutY="95.0" prefHeight="18.0" prefWidth="89.0" text="Treatment:" textAlignment="RIGHT" />
+                                    <TextField fx:id="appoitment_tratment" layoutX="108.0" layoutY="92.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                     <Button fx:id="appoitment_insertBtn" layoutX="157.0" layoutY="146.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="97.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Insert" AnchorPane.bottomAnchor="25.599999999999994" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="146.0" />
                                     <Button fx:id="appoitment_deleteBtn" layoutX="626.0" layoutY="146.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="97.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Delete" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="625.6" AnchorPane.topAnchor="145.6" />
                                     <Button fx:id="appoitment_clearBtn" layoutX="474.0" layoutY="146.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="97.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Clear" AnchorPane.bottomAnchor="26.0" AnchorPane.topAnchor="145.6" />
                                     <Button fx:id="appoitment_updateBtn" layoutX="316.0" layoutY="146.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="97.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Update" AnchorPane.bottomAnchor="25.599999999999994" AnchorPane.topAnchor="146.0" />
+                                    <TextField fx:id="appoitment_doctorID" layoutX="108.0" layoutY="53.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="527.0" layoutY="20.0" prefHeight="18.0" prefWidth="89.0" text="Date:" textAlignment="RIGHT" />
+                                    <TextField fx:id="appoitment_date" layoutX="624.0" layoutY="17.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="542.0" layoutY="55.0" prefHeight="18.0" prefWidth="78.0" text="Disease:" textAlignment="RIGHT" />
+                                    <TextField fx:id="appoitment_disease" layoutX="624.0" layoutY="53.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <ComboBox fx:id="appoitment_status" layoutX="621.0" layoutY="91.0" prefWidth="150.0" styleClass="bg-color-2" stylesheets="@styles/DoctorMainFormDesign.css" />
+                                    <Label alignment="CENTER_RIGHT" layoutX="542.0" layoutY="94.0" prefHeight="18.0" prefWidth="78.0" text="Status:" textAlignment="RIGHT" />
+                                    <TextArea fx:id="appoitment_description" layoutX="365.0" layoutY="15.0" prefHeight="110.0" prefWidth="200.0" styleClass="textfield-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                  </children>
                               </AnchorPane>
                            </children>

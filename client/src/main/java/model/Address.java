@@ -18,6 +18,13 @@ public class Address implements Serializable {
         this.houseNumber = houseNumber;
         this.apartmentNumber = apartamentNumber;
     }
+    public Address(String city, String district, String street, String houseNumber, int apartamentNumber) {
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.apartmentNumber = apartamentNumber;
+    }
 
     public Address(){
         this.addressId = -1;

@@ -9,8 +9,15 @@ public class Patient implements Serializable {
     private Person person;
     private Address address;
 
-    public Patient(int patientId, String birthDate, String passportId, int personId, int addressId, Person person, Address address) {
+    public Patient(int patientId, String birthDate, String passportId, Person person, Address address) {
         this.patientId = patientId;
+        this.birthDate = birthDate;
+        this.passportId = passportId;
+        this.person = person;
+        this.address = address;
+    }
+
+    public Patient(String birthDate, String passportId, Person person, Address address) {
         this.birthDate = birthDate;
         this.passportId = passportId;
         this.person = person;

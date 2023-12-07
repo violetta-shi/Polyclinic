@@ -26,6 +26,13 @@ public class Person implements Serializable {
         this.phone = phone;
         this.gender = gender;
     }
+    public Person(String name, String lastName, String patronymic, String phone, String gender) {
+        this.name = name;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+        this.gender = gender;
+    }
 
     public void setId(int id) {
         this.personId = id;
