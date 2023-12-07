@@ -4,9 +4,12 @@ import dao.PersonDao;
 import dao.UserDao;
 import interfaces.DAO;
 import interfaces.Service;
+import model.Patient;
 import model.Person;
 import model.User;
+import model.Visit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonService implements Service<Person> {

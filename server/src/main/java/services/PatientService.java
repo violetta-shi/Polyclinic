@@ -6,6 +6,7 @@ import interfaces.Service;
 import model.Doctor;
 import model.Patient;
 import model.Person;
+import model.Visit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,21 @@ public class PatientService implements Service<Patient> {
     @Override
     public List<Patient> findAllEntities() {
         List<Patient> patients = daoService.findAll();
-        /*List<Patient> newPatients = new ArrayList<>();
-        for(Patient patient : patients){
+        List<Patient> newPatients = new ArrayList<>();
+        for(Patient patient: patients){
             if(patient.getPerson() != null){
-                //patient.getPerson().set(null);
+                patient.getPerson().setPatient(null);
             }
-            if(patient.getUser() != null){
-                patient.getUser().setDoctor(null);
+            if(patient.getAddress() != null){
+                patient.getAddress().setPatients(null);
             }
-            patient.add(doctor);
+            for(Visit visit : patient.getVisits()){
+                if(visit != null){
+                    visit.setPatient(null);
+                }
+            }
+            newPatients.add(patient);
         }
-        return newDoctors;*/
-        return daoService.findAll();
+        return newPatients;
     }
 }

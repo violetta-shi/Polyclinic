@@ -264,6 +264,10 @@ public class MainAdminController implements Initializable {
         return patients;
     }
 
+    public void patientsShowData() throws IOException {
+        ObservableList<Patient> patients = getPatients();
+    }
+
     public void doctorsShowData() throws IOException {
         ObservableList<Doctor> doctors = getDoctors();
         doctors_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
@@ -328,6 +332,7 @@ public class MainAdminController implements Initializable {
         displayAdminIDAndUsername();
         try {
             doctorsShowData();
+            patientsShowData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

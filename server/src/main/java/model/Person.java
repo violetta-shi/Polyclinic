@@ -35,7 +35,7 @@ public class Person {
         this.gender = "";
         this.patient = null;
     }
-    public Person(int id, String name, String lastName, String patronymic, String phone, String gender, User user) {
+    public Person(int id, String name, String lastName, String patronymic, String phone, String gender, User user, Patient patient) {
         this.personId = id;
         this.name = name;
         this.lastName = lastName;
@@ -43,6 +43,7 @@ public class Person {
         this.phone = phone;
         this.gender = gender;
         this.user = user;
+        this.patient = patient;
     }
 
     public int getPersonId() {
@@ -106,5 +107,13 @@ public class Person {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }
