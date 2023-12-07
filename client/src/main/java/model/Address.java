@@ -75,4 +75,15 @@ public class Address implements Serializable {
     public void setApartmentNumber(int apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
     }
+
+    @Override
+    public String toString() {
+        return
+                "г.'" + city  +
+                ", район '" + district +
+                ", ул.'" + street +
+                ", дом '" + houseNumber +
+                ", кв. " + apartmentNumber;
+    }
+
 }

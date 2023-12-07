@@ -94,7 +94,7 @@
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
                            </styleClass></Button>
-                        <Button fx:id="appoitments_btn" layoutX="6.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Appoitments">
+                        <Button fx:id="appoitments_btn" layoutX="6.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Visits">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
@@ -275,7 +275,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="patient_form" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="patient_form" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="537.0" prefWidth="852.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
                                  <styleClass>
@@ -286,16 +286,15 @@
                                  <children>
                                     <TableView fx:id="patient_tableView" layoutX="14.0" layoutY="72.0" prefHeight="446.0" prefWidth="808.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="18.40000000000009" AnchorPane.leftAnchor="13.600000000000023" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="72.00000000000011">
                                       <columns>
-                                        <TableColumn fx:id="patient_col_patientID" prefWidth="75.0" text="Patient ID" />
-                                        <TableColumn fx:id="patient_col_name" prefWidth="75.0" text="Name" />
-                                          <TableColumn fx:id="patient_col_lastname" prefWidth="75.0" text="Lastname" />
-                                          <TableColumn fx:id="patient_col_patronymic" prefWidth="75.0" text="Patronymic" />
-                                          <TableColumn fx:id="patient_col_gender" prefWidth="75.0" text="Gender" />
-                                          <TableColumn fx:id="patient_col_phone" prefWidth="75.0" text="Phone" />
-                                          <TableColumn fx:id="patient_col_date" prefWidth="75.0" text="Date" />
-                                          <TableColumn fx:id="patient_col_pasportID" prefWidth="75.0" text="Passport ID" />
-                                          <TableColumn fx:id="patient_col_address" prefWidth="75.0" text="Address" />
-                                          <TableColumn fx:id="patient_col_status" minWidth="6.4000244140625" prefWidth="42.4000244140625" text="Status" />
+                                        <TableColumn fx:id="patient_col_patientID" prefWidth="63.999988198280334" text="Patient ID" />
+                                        <TableColumn fx:id="patient_col_name" prefWidth="72.79998779296875" text="Name" />
+                                          <TableColumn fx:id="patient_col_lastname" prefWidth="76.0" text="Lastname" />
+                                          <TableColumn fx:id="patient_col_patronymic" prefWidth="72.79997253417969" text="Patronymic" />
+                                          <TableColumn fx:id="patient_col_gender" prefWidth="61.5999755859375" text="Gender" />
+                                          <TableColumn fx:id="patient_col_phone" prefWidth="75.19998168945312" text="Phone" />
+                                          <TableColumn fx:id="patient_col_date" prefWidth="45.60003662109375" text="Date" />
+                                          <TableColumn fx:id="patient_col_pasportID" prefWidth="84.7999267578125" text="Passport ID" />
+                                          <TableColumn fx:id="patient_col_address" prefWidth="247.20013427734375" text="Address" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -343,6 +342,38 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane layoutX="6.0" layoutY="24.0" prefHeight="526.0" prefWidth="866.0" stylesheets="@styles/DoctorMainFormDesign.css" visible="false">
+                           <styleClass>
+                              <String fx:value="white_bg" />
+                              <String fx:value="radius" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <children>
+                              <TableView fx:id="appoitments_tableView" layoutX="14.0" layoutY="46.0" prefHeight="254.0" prefWidth="808.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="13.600000000000108" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="25.600000000000023" AnchorPane.topAnchor="46.0">
+                                 <columns>
+                                    <TableColumn fx:id="appoitment_col_AppoitmentID" prefWidth="75.0" text="Visit ID" />
+                                    <TableColumn fx:id="appoitment_col_lastname" prefWidth="75.0" text="PatientID" />
+                                    <TableColumn fx:id="appoitment_col_gender" prefWidth="75.0" text="DoctorID" />
+                                    <TableColumn fx:id="appoitment_col_contact" prefWidth="75.0" text="Comment" />
+                                    <TableColumn fx:id="appoitment_col_description" prefWidth="75.0" text="Date" />
+                                    <TableColumn fx:id="appoitment_col_date" prefWidth="75.0" text="Time" />
+                                    <TableColumn fx:id="appoitment_col_dateModify" prefWidth="75.0" text=" Date Modify" />
+                                    <TableColumn fx:id="appoitment_col_doctorID" prefWidth="75.0" text="Disease" />
+                                    <TableColumn fx:id="appoitment_col_address" prefWidth="75.0" text="Address" />
+                                    <TableColumn fx:id="appoitment_col_status" minWidth="6.4000244140625" prefWidth="42.4000244140625" text="Status" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Label fx:id="current_form1" layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="194.0" styleClass="header-l" stylesheets="@styles/AdminMainPageDesign.css" text="Visits">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>

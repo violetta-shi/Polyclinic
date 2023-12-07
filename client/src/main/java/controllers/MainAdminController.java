@@ -20,20 +20,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
+import model.Address;
 import model.Doctor;
 import model.Patient;
-import model.User;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainAdminController implements Initializable {
@@ -140,40 +137,40 @@ public class MainAdminController implements Initializable {
     private Label nav_usermane;
 
     @FXML
-    private TableColumn<?, ?> patient_col_address;
+    private TableColumn<Patient, String> patient_col_address;
 
     @FXML
-    private TableColumn<?, ?> patient_col_date;
+    private TableColumn<Patient, String> patient_col_date;
 
     @FXML
-    private TableColumn<?, ?> patient_col_gender;
+    private TableColumn<Patient, String> patient_col_gender;
 
     @FXML
-    private TableColumn<?, ?> patient_col_lastname;
+    private TableColumn<Patient, String> patient_col_lastname;
 
     @FXML
-    private TableColumn<?, ?> patient_col_name;
+    private TableColumn<Patient, String> patient_col_name;
 
     @FXML
-    private TableColumn<?, ?> patient_col_pasportID;
+    private TableColumn<Patient, String> patient_col_pasportID;
 
     @FXML
-    private TableColumn<?, ?> patient_col_patientID;
+    private TableColumn<Patient, Integer> patient_col_patientID;
 
     @FXML
-    private TableColumn<?, ?> patient_col_patronymic;
+    private TableColumn<Patient, String> patient_col_patronymic;
 
     @FXML
-    private TableColumn<?, ?> patient_col_phone;
+    private TableColumn<Patient, String> patient_col_phone;
 
     @FXML
-    private TableColumn<?, ?> patient_col_status;
+    private TableColumn<Patient, String> patient_col_status;
 
     @FXML
     private AnchorPane patient_form;
 
     @FXML
-    private TableView<?> patient_tableView;
+    private TableView<Patient> patient_tableView;
 
     @FXML
     private Button patients_btn;
@@ -266,6 +263,69 @@ public class MainAdminController implements Initializable {
 
     public void patientsShowData() throws IOException {
         ObservableList<Patient> patients = getPatients();
+
+        patient_col_patientID.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+        patient_col_name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getPerson().getName();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_lastname.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                        Patient patient = param.getValue();
+                        String name = patient.getPerson().getLastName();
+                        return new SimpleStringProperty(name);
+                    }
+                });
+        patient_col_patronymic.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getPerson().getPatronymic();
+                return new SimpleStringProperty(name);
+            }
+        });
+                patient_col_gender.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                        Patient patient = param.getValue();
+                        String name = patient.getPerson().getGender();
+                        return new SimpleStringProperty(name);
+                    }
+                });
+        patient_col_phone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getPerson().getPhone();
+                return new SimpleStringProperty(name);
+            }
+        });
+                patient_col_date.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                        Patient patient = param.getValue();
+                        String name = patient.getBirthDate();
+                        return new SimpleStringProperty(name);
+                    }
+                });
+        patient_col_pasportID.setCellValueFactory(new PropertyValueFactory<>("passportId"));
+                patient_col_address.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                        Patient patient = param.getValue();
+                        Address address = patient.getAddress();
+                        return new SimpleStringProperty(address.toString());
+                    }
+                });
+
+
+                patient_tableView.setItems(patients);
+
     }
 
     public void doctorsShowData() throws IOException {

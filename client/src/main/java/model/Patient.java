@@ -6,23 +6,23 @@ public class Patient implements Serializable {
     private int patientId;
     private String birthDate;
     private String passportId;
-    private int personId;
-    private int addressId;
+    private Person person;
+    private Address address;
 
-    public Patient(int patientId, String birthDate, String passportId, int personId, int addressId) {
+    public Patient(int patientId, String birthDate, String passportId, int personId, int addressId, Person person, Address address) {
         this.patientId = patientId;
         this.birthDate = birthDate;
         this.passportId = passportId;
-        this.personId = personId;
-        this.addressId = addressId;
+        this.person = person;
+        this.address = address;
     }
 
     public Patient(){
         this.patientId = -1;
         this.birthDate = "";
         this.passportId = "";
-        this.personId = -1;
-        this.addressId = -1;
+        this.person = null;
+        this.address = null;
     }
 
     public int getPatientId() {
@@ -49,19 +49,19 @@ public class Patient implements Serializable {
         this.passportId = passportId;
     }
 
-    public int getPersonId() {
-        return personId;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public int getAddressId() {
-        return addressId;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
