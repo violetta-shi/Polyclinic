@@ -7,6 +7,7 @@ public class Person implements Serializable {
     private String name;
     private String lastName;
     private String patronymic;
+    private String gender;
     private String phone;
 
     public Person(){
@@ -15,13 +16,15 @@ public class Person implements Serializable {
         this.lastName = "";
         this.patronymic = "";
         this.phone = "";
+        this.gender = "";
     }
-    public Person(int id, String name, String lastName, String patronymic, String phone) {
+    public Person(int id, String name, String lastName, String patronymic, String phone, String gender) {
         this.personId = id;
         this.name = name;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.phone = phone;
+        this.gender = gender;
     }
 
     public void setId(int id) {
@@ -61,6 +64,22 @@ public class Person implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
 

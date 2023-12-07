@@ -11,10 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import enums.ResponseStatus;
-import model.Admin;
-import model.Doctor;
-import model.Person;
-import model.User;
+import model.*;
 import services.*;
 import tcp.*;
 
@@ -94,7 +91,10 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctors));
                         break;
                     }
-
+                    case GETALL_PATIENTS:{
+                        List<Patient> patients = patientService.findAllEntities();
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(patients));
+                    }
                     /*case ADD_FLIGHT:
                         Flight flight = gson.fromJson(request.getRequestMessage(), Flight.class);
                         routeService.saveEntity(flight.getRoute());

@@ -5,5 +5,6 @@ public enum RequestType {
     LOGIN,
     GET_ADMIN,
     GET_DOCTOR,
-    GETALL_DOCTORS
+    GETALL_DOCTORS,
+    GETALL_PATIENTS
 }

@@ -18,9 +18,12 @@ public class Person {
     private String patronymic;
     @Column(name = "phone")
     private String phone;
-
+    @Column(name = "gender")
+    private String gender;
     @OneToOne(mappedBy = "person")
     private User user;
+    @OneToOne(mappedBy = "person")
+    private Patient patient;
 
     public Person(){
         this.personId = -1;
@@ -29,13 +32,16 @@ public class Person {
         this.patronymic = "";
         this.phone = "";
         this.user = null;
+        this.gender = "";
+        this.patient = null;
     }
-    public Person(int id, String name, String lastName, String patronymic, String phone, User user) {
+    public Person(int id, String name, String lastName, String patronymic, String phone, String gender, User user) {
         this.personId = id;
         this.name = name;
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.phone = phone;
+        this.gender = gender;
         this.user = user;
     }
 
@@ -92,5 +98,13 @@ public class Person {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

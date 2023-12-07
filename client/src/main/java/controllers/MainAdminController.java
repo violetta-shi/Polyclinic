@@ -3,6 +3,8 @@ package controllers;
 import com.google.gson.Gson;
 import enums.RequestType;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +19,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.util.Callback;
 import model.Doctor;
+import model.Patient;
 import model.User;
 import tcp.Request;
 import tcp.Response;
@@ -247,18 +251,74 @@ public class MainAdminController implements Initializable {
         return doctors;
     }
 
+    public ObservableList<Patient> getPatients() throws IOException{
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти пациентов"));
+        requestModel.setRequestType(RequestType.GETALL_PATIENTS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Patient[] patientArray = new Gson().fromJson(responseModel.getResponseData(), Patient[].class);
+        ObservableList<Patient> patients = FXCollections.observableArrayList(patientArray);
+        return patients;
+    }
+
     public void doctorsShowData() throws IOException {
         ObservableList<Doctor> doctors = getDoctors();
-        doctors_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctor_id"));
-        doctors_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        doctors_col_lastname.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        doctors_col_patronymic.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        //doctors_col_gender.setCellFactory(new PropertyValueFactory<>("doctor_id"));
-        doctors_col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        doctors_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+        doctors_col_name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String name = doctor.getUser().getPerson().getName();
+                return new SimpleStringProperty(name);
+            }
+        });
+        doctors_col_lastname.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String lastName = doctor.getUser().getPerson().getLastName();
+                return new SimpleStringProperty(lastName);
+            }
+        });
+                //doctors_col_lastname.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        doctors_col_patronymic.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String patronymic = doctor.getUser().getPerson().getPatronymic();
+                return new SimpleStringProperty(patronymic);
+            }
+        });
+        doctors_col_gender.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String gender = doctor.getUser().getPerson().getGender();
+                return new SimpleStringProperty(gender);
+            }
+        });
+        doctors_col_phone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String phone = doctor.getUser().getPerson().getPhone();
+                return new SimpleStringProperty(phone);
+            }
+        });
         doctors_col_specialization.setCellValueFactory(new PropertyValueFactory<>("specialization"));
         doctors_col_qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
         doctors_col_room.setCellValueFactory(new PropertyValueFactory<>("room"));
-        doctors_col_workPone.setCellValueFactory(new PropertyValueFactory<>("workPhone"));
+        doctors_col_workPone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String workPhone = doctor.getUser().getWorkPhone();
+                return new SimpleStringProperty(workPhone);
+            }
+        });
 
         doctors_tableView.setItems(doctors);
     }
