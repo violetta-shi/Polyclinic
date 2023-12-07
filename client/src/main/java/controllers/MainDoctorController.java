@@ -7,12 +7,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import messages.AlertMessage;
 import model.Address;
 import model.Data;
@@ -448,6 +452,18 @@ public class MainDoctorController implements Initializable {
         patientClearFields();
     }
 
+    public void patientRecordBtn(){
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/recordPageForm.fxml"));
+            Stage stage = new Stage();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void patientClearFields(){
         patinet_patientName.clear();
         patinet_patientSurname.clear();
@@ -486,6 +502,8 @@ public class MainDoctorController implements Initializable {
         ObservableList list = FXCollections.observableList(listG);
         patinet_patientGender.setItems(list);
         }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();

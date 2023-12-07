@@ -85,3 +85,15 @@
     -fx-border-width: 1px;
     -fx-border-color: linear-gradient(to bottom right, #c512c5, #67289d);
 }
+
+.search{
+    -fx-border-color: #000;
+    -fx-border-width: .3px;
+    -fx-font-family: Tahoma;
+    -fx-padding: 0 0 0 15px;
+}
+
+.search:focused{
+    -fx-border-color: linear-gradient(to bottom right, #a413a1, #64308e);
+    -fx-border-width: 1px;
+}
