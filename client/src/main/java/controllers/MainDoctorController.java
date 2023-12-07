@@ -443,6 +443,38 @@ public class MainDoctorController implements Initializable {
         ClientSocket.getInstance().getOut().flush();
         String answer = ClientSocket.getInstance().getInStream().readLine();
         Response responseModel = new Gson().fromJson(answer, Response.class);
+        AlertMessage alertMessage = new AlertMessage();
+        alertMessage.successMessage(responseModel.getResponseMessage());
+        patientClearFields();
+    }
+
+    public void patientClearFields(){
+        patinet_patientName.clear();
+        patinet_patientSurname.clear();
+        patinet_patientPatronymic.clear();
+        patinet_patientGender.getSelectionModel().clearSelection();
+        patinet_patientPassportId.clear();
+        patinet_patientNumber.clear();
+        patinet_patientBDate.clear();
+        patient_userName.clear();
+        patinet_patientPassword.clear();
+        patinet_patientSity1.clear();
+        patinet_patientDistrict1.clear();
+        patinet_patientStreet1.clear();
+        patinet_patientHouse1.clear();
+        patinet_patientApartment1.clear();
+
+        patinet_PA_ID.setText("....................");
+        patinet_PA_Username.setText("....................");
+        patinet_PA_password.setText("....................");
+
+
+        patinet_PI_name.setText("....................");
+        patinet_PI_lastname.setText("....................");
+        patinet_PI_patronymic.setText("....................");
+        patinet_PI_gender.setText("....................");
+        patinet_PI_number.setText("....................");
+        patinet_PI_address.setText("....................");
     }
 
     public void patientGenderList(){

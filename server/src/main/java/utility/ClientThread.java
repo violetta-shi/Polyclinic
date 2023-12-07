@@ -104,7 +104,7 @@ public class ClientThread implements Runnable {
                         personService.saveEntity(patient.getPerson());
                         addressService.saveEntity(patient.getAddress());
                         patientService.saveEntity(patient);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
+                        response = new Response(ResponseStatus.OK, "Готово!", "Пациент успешно добавлен!");
                         break;
                     }
                     /*case ADD_FLIGHT:gson.fromJson(request.getRequestMessage(), Flight.class);
