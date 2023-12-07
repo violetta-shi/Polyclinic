@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Doctor implements Serializable {
     private int doctorId;
@@ -9,14 +11,16 @@ public class Doctor implements Serializable {
     private String room;
     private String schedule;
     private User user;
+    private Set<Visit> visits = new HashSet<>();
 
-    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user) {
+    public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user, Set<Visit> visits) {
         this.doctorId = doctorId;
         this.qualification = qualification;
         this.specialization = specialization;
         this.room = room;
         this.schedule = schedule;
         this.user = user;
+        this.visits = visits;
     }
 
     public Doctor(){
@@ -26,6 +30,7 @@ public class Doctor implements Serializable {
         this.room = "";
         this.schedule = "";
         this.user = null;
+        this.visits = null;
     }
 
     public int getDoctorId() {
@@ -74,5 +79,13 @@ public class Doctor implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Set<Visit> visits) {
+        this.visits = visits;
     }
 }

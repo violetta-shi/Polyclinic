@@ -9,13 +9,15 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String role;
+    private String workPhone;
     private Person person;
 
-    public User(int userId, String login, String password, String role, Person person) {
+    public User(int userId, String login, String password, String role, String workPhone, Person person) {
         this.userId = userId;
         this.login = login;
         this.password = password;
         this.role = role;
+        this.workPhone = workPhone;
         this.person = person;
     }
 
@@ -25,6 +27,7 @@ public class User implements Serializable {
         this.password = "";
         this.role = "";
         this.person = null;
+        this.workPhone = "";
     }
 
     public void setRole(String role) {
@@ -71,4 +74,11 @@ public class User implements Serializable {
         this.role = role.toString();
     }
 
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public void setWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+    }
 }

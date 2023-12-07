@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainDoctorController implements Initializable {
@@ -191,6 +194,10 @@ public class MainDoctorController implements Initializable {
 
     @FXML
     private AnchorPane patient_form;
+    @FXML
+    private AnchorPane singlePatinet_form;
+    @FXML
+    private Button patinet_btn;
 
     @FXML
     private TableView<?> patient_tableView;
@@ -283,21 +290,55 @@ public class MainDoctorController implements Initializable {
             dashboard_form.setVisible(true);
             patient_form.setVisible(false);
             appoitment_form.setVisible(false);
+            singlePatinet_form.setVisible(false);
         }
         else if(event.getSource() == appoitments_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             appoitment_form.setVisible(true);
+            singlePatinet_form.setVisible(false);
         }
         else if(event.getSource() == patinets_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(true);
             appoitment_form.setVisible(false);
+            singlePatinet_form.setVisible(false);
+        }else if(event.getSource() == patinet_btn){
+            dashboard_form.setVisible(false);
+            patient_form.setVisible(false);
+            appoitment_form.setVisible(false);
+            singlePatinet_form.setVisible(true);
         }
+    }
+    public void displayDoctorIDAndUsername(){
+        nav_usermane.setText(doctorLogin);
+        nav_adminID.setText(Integer.toString(doctorID));
+        top_username.setText(doctorLogin);
+    }
+
+    public void runTime(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                while(true){
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Platform.runLater(() ->{
+                        date_time.setText(format.format(new Date()));
+                    });
+                }
+            }
+        }.start();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        runTime();
+        displayDoctorIDAndUsername();
     }
 }

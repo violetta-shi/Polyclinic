@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.*;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import enums.ResponseStatus;
 import model.Admin;
 import model.Doctor;
@@ -85,6 +87,11 @@ public class ClientThread implements Runnable {
                         User requestUser = gson.fromJson(request.getRequestMessage(), User.class);
                         Doctor doctor = doctorService.findEntityByUserId(requestUser);
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctor));
+                        break;
+                    }
+                    case GETALL_DOCTORS:{
+                        List<Doctor> doctors = doctorService.findAllEntities();
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctors));
                         break;
                     }
 

@@ -1,6 +1,10 @@
 package controllers;
 
+import com.google.gson.Gson;
+import enums.RequestType;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,12 +14,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import model.Doctor;
+import model.User;
+import tcp.Request;
+import tcp.Response;
+import utility.ClientSocket;
 
+import javax.print.Doc;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainAdminController implements Initializable {
@@ -77,40 +91,40 @@ public class MainAdminController implements Initializable {
     private Button doctors_btn;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_doctorID;
+    private TableColumn<Doctor, Integer> doctors_col_doctorID;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_gender;
+    private TableColumn<Doctor, String> doctors_col_gender;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_lastname;
+    private TableColumn<Doctor, String> doctors_col_lastname;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_name;
+    private TableColumn<Doctor, String> doctors_col_name;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_patronymic;
+    private TableColumn<Doctor, String> doctors_col_patronymic;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_phone;
+    private TableColumn<Doctor, String> doctors_col_phone;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_qualification;
+    private TableColumn<Doctor, String> doctors_col_qualification;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_room;
+    private TableColumn<Doctor, String> doctors_col_room;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_specialization;
+    private TableColumn<Doctor, String> doctors_col_specialization;
 
     @FXML
-    private TableColumn<?, ?> doctors_col_workPone;
+    private TableColumn<Doctor, String> doctors_col_workPone;
 
     @FXML
     private AnchorPane doctors_form;
 
     @FXML
-    private TableView<?> doctors_tableView;
+    private TableView<Doctor> doctors_tableView;
 
     @FXML
     private AnchorPane main_form;
@@ -183,7 +197,7 @@ public class MainAdminController implements Initializable {
         top_username.setText(adminLogin);
     }
 
-    public void switchForm(ActionEvent event){
+    public void switchForm(ActionEvent event) throws IOException {
         if(event.getSource() == dashboard_btn){
             dashboard_form.setVisible(true);
             patient_form.setVisible(false);
@@ -218,9 +232,44 @@ public class MainAdminController implements Initializable {
             }
         }.start();
     }
+
+
+    public ObservableList<Doctor> getDoctors() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
+        requestModel.setRequestType(RequestType.GETALL_DOCTORS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Doctor[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Doctor[].class);
+        ObservableList<Doctor> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
+
+    public void doctorsShowData() throws IOException {
+        ObservableList<Doctor> doctors = getDoctors();
+        doctors_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctor_id"));
+        doctors_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        doctors_col_lastname.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        doctors_col_patronymic.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+        //doctors_col_gender.setCellFactory(new PropertyValueFactory<>("doctor_id"));
+        doctors_col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        doctors_col_specialization.setCellValueFactory(new PropertyValueFactory<>("specialization"));
+        doctors_col_qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
+        doctors_col_room.setCellValueFactory(new PropertyValueFactory<>("room"));
+        doctors_col_workPone.setCellValueFactory(new PropertyValueFactory<>("workPhone"));
+
+        doctors_tableView.setItems(doctors);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
         displayAdminIDAndUsername();
+        try {
+            doctorsShowData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
