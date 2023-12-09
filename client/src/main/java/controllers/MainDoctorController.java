@@ -458,6 +458,7 @@ public class MainDoctorController implements Initializable {
             Stage stage = new Stage();
 
             stage.setScene(new Scene(root));
+            stage.setTitle("Hospital Management System | Record of Patients");
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

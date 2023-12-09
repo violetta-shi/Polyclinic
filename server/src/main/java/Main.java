@@ -1,10 +1,3 @@
-
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-import interfaces.Service;
-import model.Doctor;
-import services.DoctorService;
 import utility.ClientThread;
 
 import java.io.IOException;
@@ -39,10 +32,6 @@ public class Main {
             thread.start();
             System.out.flush();
         }
-    }
-
-    public void appoitmentInsertBtn(){
-
     }
 
     @Override

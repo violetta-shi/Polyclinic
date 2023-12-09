@@ -29,6 +29,7 @@
                         <TableColumn fx:id="recordpage_col_date" prefWidth="90.0" text="Date" />
                         <TableColumn fx:id="recordpage_col_passportID" prefWidth="92.0" text="Passport ID" />
                         <TableColumn fx:id="recordpage_col_address" prefWidth="140.0" text="Address" />
+                  <TableColumn fx:id="recordpage_col_action" prefWidth="140.0" text="Action" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

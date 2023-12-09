@@ -6,19 +6,26 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import messages.AlertMessage;
 import model.Address;
 import model.Patient;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +46,8 @@ public class RecordPageFormController implements Initializable {
 
     @FXML
     private TableColumn<Patient, String> recordpage_col_name;
+    @FXML
+    private TableColumn<Patient, String> recordpage_col_action;
 
     @FXML
     private TableColumn<Patient, String> recordpage_col_passportID;
@@ -140,10 +149,86 @@ public class RecordPageFormController implements Initializable {
         recordpage_tableView.setItems(patients);
 
     }
+
+    public void actionButtons() throws IOException {
+        ObservableList<Patient> patients = getPatients();
+        Callback<TableColumn<Patient, String>, TableCell<Patient, String>> cellFactory = (TableColumn<Patient, String> param) -> {
+            final TableCell<Patient, String> cell = new TableCell<Patient, String>() {
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        Button editButton = new Button("Edit");
+                        Button removeButton = new Button("Delete");
+
+                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        editButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Patient patient = recordpage_tableView.getSelectionModel().getSelectedItem();
+                                int num = recordpage_tableView.getSelectionModel().getSelectedIndex();
+
+                                if ((num - 1) < -1) {
+                                    alertMessage.errorMessage("Please select item");
+                                    return;
+                                }
+                                Parent root = FXMLLoader.load(getClass().getResource("/editPatientForm.fxml"));
+                                Stage stage = new Stage();
+
+                                stage.setScene(new Scene(root));
+                                stage.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                        removeButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Patient patient = recordpage_tableView.getSelectionModel().getSelectedItem();
+                                int num = recordpage_tableView.getSelectionModel().getSelectedIndex();
+                                    if ((num - 1) < -1) {
+                                        alertMessage.errorMessage("Please select item");
+                                        return;
+                                    }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        HBox manageBtn = new HBox(editButton, removeButton);
+                        manageBtn.setAlignment(Pos.CENTER);
+                        manageBtn.setSpacing(5);
+                        setGraphic(manageBtn);
+                        setText(null);
+                    }
+                }
+            };
+
+            return cell;
+        };
+        recordpage_col_action.setCellFactory(cellFactory);
+        recordpage_tableView.setItems(patients);
+    }
+
+    AlertMessage alertMessage = new AlertMessage();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             patientsShowData();
+            actionButtons();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
