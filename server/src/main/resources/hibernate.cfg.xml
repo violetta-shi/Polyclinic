@@ -23,12 +23,6 @@
         <mapping class="model.Patient" />
         <mapping class="model.Disease" />
         <mapping class="model.Visit" />
-        <!--<mapping class="condorcet.Models.Entities.UserMark" />
-        <mapping class="condorcet.Models.Entities.Passenger" />
-        <mapping class="condorcet.Models.Entities.PersonData" />
-        <mapping class="condorcet.Models.Entities.Aircraft" />
-        <mapping class="condorcet.Models.Entities.Route" />-->
-
     </session-factory>
 
 </hibernate-configuration>

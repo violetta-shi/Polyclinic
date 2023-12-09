@@ -1,5 +1,8 @@
 package model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -21,8 +24,8 @@ public class Patient implements Serializable {
     @JoinColumn(name = "address_id")
     private Address address;
     @OneToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "patient_disease",
@@ -31,13 +34,14 @@ public class Patient implements Serializable {
     )
     private Set<Disease> diseases = new HashSet<>();
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Visit> visits;
 
-    public Patient(int patientId, String birthDate, String passportId, Person person, Address address, Set<Disease> diseses, List<Visit> visits) {
+    public Patient(int patientId, String birthDate, String passportId, User user, Address address, Set<Disease> diseses, List<Visit> visits) {
         this.patientId = patientId;
         this.birthDate = birthDate;
         this.passportId = passportId;
-        this.person = person;
+        this.user = user;
         this.address = address;
         this.diseases = diseses;
         this.visits = visits;
@@ -47,7 +51,7 @@ public class Patient implements Serializable {
         this.patientId = -1;
         this.birthDate = "";
         this.passportId = "";
-        this.person = null;
+        this.user = null;
         this.address = null;
         this.diseases = null;
         this.visits = null;
@@ -85,13 +89,6 @@ public class Patient implements Serializable {
         this.address = address;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 
     public Set<Disease> getDiseses() {
         return diseases;
@@ -115,5 +112,13 @@ public class Patient implements Serializable {
 
     public void setVisits(List<Visit> visits) {
         this.visits = visits;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

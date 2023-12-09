@@ -91,7 +91,7 @@ public class RecordPageFormController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
                 Patient patient = param.getValue();
-                String name = patient.getPerson().getName();
+                String name = patient.getUser().getPerson().getName();
                 return new SimpleStringProperty(name);
             }
         });
@@ -99,7 +99,7 @@ public class RecordPageFormController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
                 Patient patient = param.getValue();
-                String name = patient.getPerson().getLastName();
+                String name = patient.getUser().getPerson().getLastName();
                 return new SimpleStringProperty(name);
             }
         });
@@ -107,7 +107,7 @@ public class RecordPageFormController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
                 Patient patient = param.getValue();
-                String name = patient.getPerson().getPatronymic();
+                String name = patient.getUser().getPerson().getPatronymic();
                 return new SimpleStringProperty(name);
             }
         });
@@ -115,7 +115,7 @@ public class RecordPageFormController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
                 Patient patient = param.getValue();
-                String name = patient.getPerson().getGender();
+                String name = patient.getUser().getPerson().getGender();
                 return new SimpleStringProperty(name);
             }
         });
@@ -123,7 +123,7 @@ public class RecordPageFormController implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
                 Patient patient = param.getValue();
-                String name = patient.getPerson().getPhone();
+                String name = patient.getUser().getPerson().getPhone();
                 return new SimpleStringProperty(name);
             }
         });

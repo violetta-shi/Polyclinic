@@ -18,10 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import messages.AlertMessage;
-import model.Address;
-import model.Data;
-import model.Patient;
-import model.Person;
+import model.*;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
@@ -438,8 +435,10 @@ public class MainDoctorController implements Initializable {
         Address address = new Address(patinet_patientSity1.getText(), patinet_patientDistrict1.getText(),
                 patinet_patientStreet1.getText(), patinet_patientHouse1.getText(),
                 Integer.parseInt(patinet_patientApartment1.getText()));
+        User user = new User(patient_userName.getText(), patinet_patientPassword.getText(),
+                "User", "---------", person);
         Patient patient = new Patient(patinet_patientBDate.getText(), patinet_patientPassportId.getText(),
-                person, address);
+                user, address);
         Request requestModel = new Request();
         requestModel.setRequestMessage(new Gson().toJson(patient));
         requestModel.setRequestType(RequestType.ADD_PATIENT);

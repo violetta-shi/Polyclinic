@@ -26,14 +26,17 @@ public class User {
     private Admin admin;
     @OneToOne(mappedBy = "user")
     private Doctor doctor;
+    @OneToOne(mappedBy = "user")
+    private Patient patient;
 
-    public User(int userId, String login, String password, String role, String workPhone, Person person) {
+    public User(int userId, String login, String password, String role, String workPhone, Person person, Patient patient) {
         this.userId = userId;
         this.login = login;
         this.password = password;
         this.role = role;
         this.workPhone = workPhone;
         this.person = person;
+        this.patient = patient;
     }
 
     public User(){
@@ -43,6 +46,7 @@ public class User {
         this.role = "";
         this.workPhone = "";
         this.person = new Person();
+        this.patient = null;
     }
 
     public String getWorkPhone() {
@@ -107,5 +111,13 @@ public class User {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

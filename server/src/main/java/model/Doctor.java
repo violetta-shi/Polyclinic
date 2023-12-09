@@ -1,5 +1,8 @@
 package model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +26,7 @@ public class Doctor {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Visit> visits;
 
     public Doctor(int doctorId, String qualification, String specialization, String room, String schedule, User user, List<Visit> visits) {

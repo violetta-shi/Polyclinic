@@ -20,6 +20,9 @@ public class UserService implements Service<User> {
         if (entity.getAdmin() != null) {
             entity.getAdmin().setUser(null);
         }
+        if (entity.getPatient() != null) {
+            entity.getPatient().setUser(null);
+        }
         return entity;
     }
 

@@ -39,8 +39,11 @@ public class PatientService implements Service<Patient> {
         List<Patient> patients = daoService.findAll();
         List<Patient> newPatients = new ArrayList<>();
         for(Patient patient: patients){
-            if(patient.getPerson() != null){
-                patient.getPerson().setPatient(null);
+            if(patient.getUser().getPerson() != null){
+                patient.getUser().getPerson().setUser(null);
+            }
+            if(patient.getUser() != null){
+                patient.getUser().setPatient(null);
             }
             if(patient.getAddress() != null){
                 patient.getAddress().setPatients(null);

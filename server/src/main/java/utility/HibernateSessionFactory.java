@@ -15,8 +15,6 @@ public class HibernateSessionFactory {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure();
-                //configuration.addAnnotatedClass(Route.class);
-                //configuration.addAnnotatedClass(PersonData.class);
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Person.class);
                 configuration.addAnnotatedClass(Admin.class);
@@ -25,10 +23,6 @@ public class HibernateSessionFactory {
                 configuration.addAnnotatedClass(Patient.class);
                 configuration.addAnnotatedClass(Disease.class);
                 configuration.addAnnotatedClass(Visit.class);
-                //configuration.addAnnotatedClass(UserMark.class);
-                //configuration.addAnnotatedClass(Passenger.class);
-                //configuration.addAnnotatedClass(Aircraft.class);
-                //configuration.addAnnotatedClass(Flight.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().configure(configFileName);
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 

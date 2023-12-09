@@ -101,7 +101,8 @@ public class ClientThread implements Runnable {
                     }
                     case ADD_PATIENT:{
                         Patient patient = gson.fromJson(request.getRequestMessage(), Patient.class);
-                        personService.saveEntity(patient.getPerson());
+                        personService.saveEntity(patient.getUser().getPerson());
+                        userService.saveEntity(patient.getUser());
                         addressService.saveEntity(patient.getAddress());
                         patientService.saveEntity(patient);
                         response = new Response(ResponseStatus.OK, "Готово!", "Пациент успешно добавлен!");
