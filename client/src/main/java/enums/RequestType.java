@@ -9,5 +9,5 @@ public enum RequestType {
     GETALL_PATIENTS,
     ADD_PATIENT,
     EDIT_PATIENT,
-    DELETE_USER
+    DELETE_PATIENT
 }

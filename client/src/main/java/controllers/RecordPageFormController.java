@@ -206,7 +206,15 @@ public class RecordPageFormController implements Initializable {
                                         alertMessage.errorMessage("Please select item");
                                         return;
                                     }
-
+                                Request requestModel = new Request();
+                                requestModel.setRequestMessage(new Gson().toJson(patient));
+                                requestModel.setRequestType(RequestType.DELETE_PATIENT);
+                                ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                                ClientSocket.getInstance().getOut().flush();
+                                String answer = ClientSocket.getInstance().getInStream().readLine();
+                                Response responseModel = new Gson().fromJson(answer, Response.class);
+                                alertMessage.successMessage("Данные успешно удалены");
+                                patientsShowData();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
