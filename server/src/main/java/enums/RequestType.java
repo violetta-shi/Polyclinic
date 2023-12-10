@@ -13,6 +13,7 @@ public enum RequestType {
     GET_ALLVISITS,
     ADD_PATIENT,
     ADD_VISIT,
-
+    EDIT_PATIENT,
+    DELETE_PATIENT
 
 }

@@ -185,9 +185,12 @@ public class RecordPageFormController implements Initializable {
                                     alertMessage.errorMessage("Please select item");
                                     return;
                                 }
-                                Parent root = FXMLLoader.load(getClass().getResource("/editPatientForm.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editPatientForm.fxml"));
+                                EditPatientFormController formController = new EditPatientFormController(patient);
+                                loader.setController(formController);
+                                Parent root = loader.load();;
                                 Stage stage = new Stage();
-
+                                stage.setTitle("Edit Patient");
                                 stage.setScene(new Scene(root));
                                 stage.show();
                             } catch (Exception e) {

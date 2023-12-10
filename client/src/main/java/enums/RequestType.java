@@ -7,5 +7,7 @@ public enum RequestType {
     GET_DOCTOR,
     GETALL_DOCTORS,
     GETALL_PATIENTS,
-    ADD_PATIENT
+    ADD_PATIENT,
+    EDIT_PATIENT,
+    DELETE_USER
 }
