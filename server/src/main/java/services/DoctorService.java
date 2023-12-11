@@ -15,6 +15,12 @@ public class DoctorService implements Service<Doctor> {
     @Override
     public Doctor findEntity(int id) {
         Doctor entity = (Doctor) daoService.findById(id);
+        if(entity.getUser().getPerson() != null){
+            entity.getUser().getPerson().setUser(null);
+        }
+        if(entity.getUser() != null){
+            entity.getUser().setDoctor(null);
+        }
         return entity;
     }
 

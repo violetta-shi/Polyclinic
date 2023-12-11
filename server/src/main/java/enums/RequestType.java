@@ -3,6 +3,7 @@ package enums;
 public enum RequestType {
     REGISTER,
     LOGIN,
+    EDIT_USER,
     GET_ADMIN,
     GET_DOCTOR,
     GET_USER,
@@ -14,6 +15,7 @@ public enum RequestType {
     ADD_PATIENT,
     ADD_VISIT,
     EDIT_PATIENT,
-    DELETE_PATIENT
+    DELETE_PATIENT,
+    GET_DOCTOR_BY_USER
 
 }

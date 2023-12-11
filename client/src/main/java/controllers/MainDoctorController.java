@@ -23,6 +23,7 @@ import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -321,11 +322,37 @@ public class MainDoctorController implements Initializable {
     private TextField patinet_patientBDate;
     @FXML
     private TextField patinet_patientPassportId;
+    @FXML
+    private AnchorPane profile_settings_form;
+    @FXML
+    private Button ps_importBtn;
+    @FXML
+    private Label ps_DoctorID;
+    @FXML
+    private Label ps_Phone;
+    @FXML
+    private Label ps_WorkPhone;
+    @FXML
+    private Label ps_Room;
+    @FXML
+    private TextField ps_oldPassword;
+    @FXML
+    private TextField ps_newPassword;
+    @FXML
+    private TextField ps_oldPasswordRepeate;
+    @FXML
+    private TextField ps_newLogin;
+    @FXML
+    private Button ps_changepasswordBtn;
+    @FXML
+    private Button ps_changeLoginBtn;
+
 
     /*@FXML
     private ComboBox<String> patinet_patientGender;*/
     private int doctorID;
     private String doctorLogin;
+    private AlertMessage alertMessage = new AlertMessage();
 
     public MainDoctorController(int doctorID, String doctorLogin){
         this.doctorID = doctorID;
@@ -339,23 +366,34 @@ public class MainDoctorController implements Initializable {
             patient_form.setVisible(false);
             appoitment_form.setVisible(false);
             singlePatinet_form.setVisible(false);
+            profile_settings_form.setVisible(false);
         }
         else if(event.getSource() == appoitments_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             appoitment_form.setVisible(true);
             singlePatinet_form.setVisible(false);
+            profile_settings_form.setVisible(false);
         }
         else if(event.getSource() == patinets_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(true);
             appoitment_form.setVisible(false);
             singlePatinet_form.setVisible(false);
+            profile_settings_form.setVisible(false);
         }else if(event.getSource() == patinet_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             appoitment_form.setVisible(false);
             singlePatinet_form.setVisible(true);
+            profile_settings_form.setVisible(false);
+        }
+        else if(event.getSource() == profile_btn){
+            dashboard_form.setVisible(false);
+            patient_form.setVisible(false);
+            appoitment_form.setVisible(false);
+            singlePatinet_form.setVisible(false);
+            profile_settings_form.setVisible(true);
         }
     }
     public void displayDoctorIDAndUsername(){
@@ -463,6 +501,61 @@ public class MainDoctorController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+   public Doctor getDoctor() throws IOException {
+       Doctor doctor = new Doctor();
+       doctor.setDoctorId(this.doctorID);
+       Request requestModel = new Request();
+       requestModel.setRequestMessage(new Gson().toJson(doctor));
+       requestModel.setRequestType(RequestType.GET_DOCTOR);
+       ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+       ClientSocket.getInstance().getOut().flush();
+       String answer = ClientSocket.getInstance().getInStream().readLine();
+       Response responseModel = new Gson().fromJson(answer, Response.class);
+       String data = responseModel.getResponseData();
+       doctor = new Gson().fromJson(data, Doctor.class);
+       return doctor;
+   }
+    public void changePassword() throws IOException {
+        Doctor doctor = getDoctor();
+        if (!ps_newPassword.getText().equals(ps_oldPasswordRepeate.getText())){
+            alertMessage.errorMessage("Пароли не совпадают!");
+            return;
+        }
+        if(!ps_oldPassword.getText().equals(doctor.getUser().getPassword())){
+            alertMessage.errorMessage("Старый пароль введен неверно!");
+            return;
+        }
+        doctor.getUser().setPassword(ps_newPassword.getText());
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson(doctor.getUser()));
+        requestModel.setRequestType(RequestType.EDIT_USER);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        alertMessage.successMessage(responseModel.getResponseMessage());
+    }
+
+    public void showPS() throws IOException {
+        Doctor doctor = getDoctor();
+        ps_DoctorID.setText(String.valueOf(doctorID));
+        ps_Phone.setText(doctor.getUser().getPerson().getPhone());
+        ps_WorkPhone.setText(doctor.getUser().getWorkPhone());
+        ps_Room.setText(doctor.getRoom());
+    }
+
+    public void changeLogin() throws IOException {
+        Doctor doctor = getDoctor();
+        doctor.getUser().setLogin(ps_newLogin.getText());
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson(doctor.getUser()));
+        requestModel.setRequestType(RequestType.EDIT_USER);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        alertMessage.successMessage(responseModel.getResponseMessage());
+    }
 
     public void patientClearFields(){
         patinet_patientName.clear();
@@ -510,5 +603,10 @@ public class MainDoctorController implements Initializable {
         displayDoctorIDAndUsername();
         appoitmentStatus();
         patientGenderList();
+        try {
+            showPS();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

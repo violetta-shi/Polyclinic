@@ -15,6 +15,8 @@ import model.*;
 import services.*;
 import tcp.*;
 
+import javax.print.Doc;
+
 
 public class ClientThread implements Runnable {
     private Socket clientSocket;
@@ -80,9 +82,15 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(admin));
                         break;
                     }
-                    case GET_DOCTOR:{
+                    case GET_DOCTOR_BY_USER:{
                         User requestUser = gson.fromJson(request.getRequestMessage(), User.class);
                         Doctor doctor = doctorService.findEntityByUserId(requestUser);
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctor));
+                        break;
+                    }
+                    case GET_DOCTOR:{
+                        Doctor requestDoctor = gson.fromJson(request.getRequestMessage(), Doctor.class);
+                        Doctor doctor = doctorService.findEntity(requestDoctor.getDoctorId());
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctor));
                         break;
                     }
@@ -120,6 +128,12 @@ public class ClientThread implements Runnable {
                         Patient patient =  gson.fromJson(request.getRequestMessage(), Patient.class);
                         patientService.deleteEntity(patient);
                         response = new Response(ResponseStatus.OK, "Готово!", "");
+                        break;
+                    }
+                    case EDIT_USER:{
+                        User user = gson.fromJson(request.getRequestMessage(), User.class);
+                        userService.updateEntity(user);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Пароль успешно изменен!");
                         break;
                     }
                     /*case ADD_FLIGHT:gson.fromJson(request.getRequestMessage(), Flight.class);

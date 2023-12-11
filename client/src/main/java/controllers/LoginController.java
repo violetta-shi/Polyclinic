@@ -143,7 +143,7 @@ public class LoginController implements Initializable {
                        break;
                    case Doctor:{
                        requestModel.setRequestMessage(new Gson().toJson(user1));
-                       requestModel.setRequestType(RequestType.GET_DOCTOR);
+                       requestModel.setRequestType(RequestType.GET_DOCTOR_BY_USER);
                        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
                        ClientSocket.getInstance().getOut().flush();
                        answer = ClientSocket.getInstance().getInStream().readLine();
