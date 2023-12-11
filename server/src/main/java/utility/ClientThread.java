@@ -130,10 +130,18 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", "");
                         break;
                     }
+                    case EDIT_DOCTOR:{
+                        Doctor doctor = gson.fromJson(request.getRequestMessage(), Doctor.class);
+                        personService.updateEntity(doctor.getUser().getPerson());
+                        userService.updateEntity(doctor.getUser());
+                        doctorService.updateEntity(doctor);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены");
+                        break;
+                    }
                     case EDIT_USER:{
                         User user = gson.fromJson(request.getRequestMessage(), User.class);
                         userService.updateEntity(user);
-                        response = new Response(ResponseStatus.OK, "Готово!", "Пароль успешно изменен!");
+                        response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены!");
                         break;
                     }
                     /*case ADD_FLIGHT:gson.fromJson(request.getRequestMessage(), Flight.class);

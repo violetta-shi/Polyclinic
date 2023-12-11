@@ -9,17 +9,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import messages.AlertMessage;
 import model.Address;
 import model.Doctor;
 import model.Patient;
@@ -27,6 +31,7 @@ import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -120,6 +125,8 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private TableColumn<Doctor, String> doctors_col_workPone;
+    @FXML
+    private TableColumn<Doctor, String>doctors_col_action;
 
     @FXML
     private AnchorPane doctors_form;
@@ -144,6 +151,8 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private TableColumn<Patient, String> patient_col_gender;
+    @FXML
+    private TableColumn<Patient, String>patient_col_action;
 
     @FXML
     private TableColumn<Patient, String> patient_col_lastname;
@@ -183,6 +192,8 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Circle top_profile;
+
+    private AlertMessage alert = new AlertMessage();
 
     @FXML
     private Label top_username;
@@ -386,6 +397,196 @@ public class MainAdminController implements Initializable {
 
         doctors_tableView.setItems(doctors);
     }
+
+    public void doctorActionButton() throws IOException {
+
+        ObservableList<Doctor> doctors = getDoctors();
+
+        Callback<TableColumn<Doctor, String>, TableCell<Doctor, String>> cellFactory = (TableColumn<Doctor, String> param) -> {
+            final TableCell<Doctor, String> cell = new TableCell<Doctor, String>() {
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        Button editButton = new Button("Edit");
+                        Button removeButton = new Button("Delete");
+
+                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        editButton.setOnAction((ActionEvent event) -> {
+                            try {
+
+                                Doctor pData = doctors_tableView.getSelectionModel().getSelectedItem();
+                                int num = doctors_tableView.getSelectionModel().getSelectedIndex();
+
+                                if ((num - 1) < -1) {
+                                    alert.errorMessage("Please select item first");
+                                    return;
+                                }
+
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editDoctorForm.fxml"));
+                                EditDoctorFormController formController = new EditDoctorFormController(pData);
+                                loader.setController(formController);
+                                Parent root = loader.load();;
+                                Stage stage = new Stage();
+                                stage.setTitle("Edit Doctor");
+                                stage.setScene(new Scene(root));
+                                stage.show();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                        removeButton.setOnAction((ActionEvent event) -> {
+                            Doctor pData = doctors_tableView.getSelectionModel().getSelectedItem();
+                            int num = doctors_tableView.getSelectionModel().getSelectedIndex();
+
+                            if ((num - 1) < -1) {
+                                alert.errorMessage("Please select item first");
+                                return;
+                            }
+                            Request requestModel = new Request();
+                            requestModel.setRequestMessage(new Gson().toJson(pData));
+                            requestModel.setRequestType(RequestType.DELETE_DOCTOR);
+                            ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                            ClientSocket.getInstance().getOut().flush();
+                            String answer = null;
+                            try {
+                                answer = ClientSocket.getInstance().getInStream().readLine();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Response responseModel = new Gson().fromJson(answer, Response.class);
+
+                            try {
+                                if (alert.confirmationMessage("Are you sure you want to delete Doctor ID: " + pData.getDoctorId() + "?")) {
+
+                                    alert.successMessage("Deleted Successfully!");
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                        HBox manageBtn = new HBox(editButton, removeButton);
+                        manageBtn.setAlignment(Pos.CENTER);
+                        manageBtn.setSpacing(5);
+                        setGraphic(manageBtn);
+                        setText(null);
+                    }
+                }
+            };
+            try {
+                doctorsShowData();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return cell;
+        };
+
+        doctors_col_action.setCellFactory(cellFactory);
+        doctors_tableView.setItems(doctors);
+
+    }
+
+    public void patientActionButton() throws IOException {
+        ObservableList<Patient> patients = getPatients();
+        Callback<TableColumn<Patient, String>, TableCell<Patient, String>> cellFactory = (TableColumn<Patient, String> param) -> {
+            final TableCell<Patient, String> cell = new TableCell<Patient, String>() {
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        Button editButton = new Button("Edit");
+                        Button removeButton = new Button("Delete");
+
+                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        editButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Patient patient = patient_tableView.getSelectionModel().getSelectedItem();
+                                int num = patient_tableView.getSelectionModel().getSelectedIndex();
+
+                                if ((num - 1) < -1) {
+                                    alert.errorMessage("Please select item");
+                                    return;
+                                }
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editPatientForm.fxml"));
+                                EditPatientFormController formController = new EditPatientFormController(patient);
+                                loader.setController(formController);
+                                Parent root = loader.load();;
+                                Stage stage = new Stage();
+                                stage.setTitle("Edit Patient");
+                                stage.setScene(new Scene(root));
+                                stage.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                        removeButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Patient patient = patient_tableView.getSelectionModel().getSelectedItem();
+                                int num = patient_tableView.getSelectionModel().getSelectedIndex();
+                                if ((num - 1) < -1) {
+                                    alert.errorMessage("Please select item");
+                                    return;
+                                }
+                                Request requestModel = new Request();
+                                requestModel.setRequestMessage(new Gson().toJson(patient));
+                                requestModel.setRequestType(RequestType.DELETE_PATIENT);
+                                ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                                ClientSocket.getInstance().getOut().flush();
+                                String answer = ClientSocket.getInstance().getInStream().readLine();
+                                Response responseModel = new Gson().fromJson(answer, Response.class);
+                                alert.successMessage("Данные успешно удалены");
+                                patientsShowData();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        HBox manageBtn = new HBox(editButton, removeButton);
+                        manageBtn.setAlignment(Pos.CENTER);
+                        manageBtn.setSpacing(5);
+                        setGraphic(manageBtn);
+                        setText(null);
+                    }
+                }
+            };
+
+            return cell;
+        };
+        patient_col_action.setCellFactory(cellFactory);
+        patient_tableView.setItems(patients);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
@@ -393,6 +594,8 @@ public class MainAdminController implements Initializable {
         try {
             doctorsShowData();
             patientsShowData();
+            doctorActionButton();
+            patientActionButton();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

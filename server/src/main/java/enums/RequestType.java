@@ -16,6 +16,6 @@ public enum RequestType {
     ADD_VISIT,
     EDIT_PATIENT,
     DELETE_PATIENT,
-    GET_DOCTOR_BY_USER
+    EDIT_DOCTOR, GET_DOCTOR_BY_USER
 
 }
