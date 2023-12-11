@@ -121,14 +121,6 @@ public class AddDoctorFormController implements Initializable {
         user.setPassword(editDoctor_password.getText());
         user.setWorkPhone(editDoctor_workPhone.getText());
         doctor.setUser(user);
- /*       doctor.getUser().getPerson().setName(editDoctor_name.getText());
-        doctor.getUser().getPerson().setLastName(editDoctor_lastname.getText());
-        doctor.getUser().getPerson().setPatronymic(editDoctor_patronimyc.getText());
-        doctor.getUser().getPerson().setGender(((String) editDoctor_gender.getSelectionModel().getSelectedItem()).substring(0, 1));*/
-        /*doctor.getUser().setLogin(editDoctor_login.getText());
-        doctor.getUser().setPassword(editDoctor_password.getText());
-        doctor.getUser().getPerson().setPhone(editDoctor_phone.getText());*/
-        /*doctor.getUser().setWorkPhone(editDoctor_workPhone.getText());*/
         doctor.setQualification((String) editDoctor_qualification.getSelectionModel().getSelectedItem());
         doctor.setSpecialization((String) editDoctor_specialization.getSelectionModel().getSelectedItem());
         doctor.setSchedule((String) editDoctor_shedule.getSelectionModel().getSelectedItem());

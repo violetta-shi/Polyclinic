@@ -16,19 +16,16 @@ public class Disease implements Serializable {
     private String name;
     @Column(name = "symptoms")
     private String symptoms;
-    @Column(name = "status")
-    private String status;
     @Column(name = "treatment")
     private String treatment;
     @ManyToMany(mappedBy = "diseases", fetch = FetchType.EAGER)
     private Set<Patient> patients = new HashSet<>();
 
 
-    public Disease(int diseaseId, String name, String symptoms, String status, String treatment, Set<Patient> patients) {
+    public Disease(int diseaseId, String name, String symptoms, String treatment, Set<Patient> patients) {
         this.diseaseId = diseaseId;
         this.name = name;
         this.symptoms = symptoms;
-        this.status = status;
         this.treatment = treatment;
         this.patients = patients;
     }
@@ -37,7 +34,6 @@ public class Disease implements Serializable {
         this.diseaseId = -1;
         this.name = "";
         this.symptoms = "";
-        this.status = "";
         this.treatment = "";
         this.patients = null;
     }
@@ -64,14 +60,6 @@ public class Disease implements Serializable {
 
     public void setSymptoms(String symptoms) {
         this.symptoms = symptoms;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getTreatment() {

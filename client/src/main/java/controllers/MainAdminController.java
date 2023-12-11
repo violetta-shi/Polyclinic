@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import messages.AlertMessage;
 import model.Address;
+import model.Disease;
 import model.Doctor;
 import model.Patient;
 import tcp.Request;
@@ -67,28 +69,28 @@ public class MainAdminController implements Initializable {
     private AreaChart<?, ?> dashboard_chat_PD;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_doctorID;
+    private TableColumn<Doctor, Integer> dashboard_col_doctorID;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_lastname;
+    private TableColumn<Doctor, String> dashboard_col_lastname;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_phone;
+    private TableColumn<Doctor, String> dashboard_col_phone;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_qualification;
+    private TableColumn<Doctor, String> dashboard_col_qualification;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_room;
+    private TableColumn<Doctor, String> dashboard_col_room;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_specialization;
+    private TableColumn<Doctor, String> dashboard_col_specialization;
 
     @FXML
     private AnchorPane dashboard_form;
 
     @FXML
-    private TableView<?> dashboard_tableView;
+    private TableView<Doctor> dashboard_tableView;
 
     @FXML
     private Label date_time;
@@ -199,8 +201,67 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Label top_username;
+
+    @FXML
+    private TableColumn<Disease, Integer> disease_diseaseID;
+
+    @FXML
+    private TableColumn<Disease, String> disease_name;
+
+    @FXML
+    private TableColumn<Disease, String> disease_symptoms;
+    @FXML
+    private TableColumn<Disease, String> disease_treatment;
+    @FXML
+    private TableColumn<Disease, String> disease_action;
+
+    @FXML
+    private TableView<Disease> disease_tableView;
+
+    @FXML
+    private AnchorPane disease_form;
+
+    @FXML
+    private Button disease_btn;
     private int adminId;
     private String adminLogin;
+    public void dashboardAD() throws IOException {
+        ObservableList<Doctor> doctors = getDoctors();
+        dashboard_AD.setText(String.valueOf(doctors.size()));
+    }
+
+    public void dashboardTP() throws IOException {
+            ObservableList<Patient> patients = getPatients();
+            dashboard_TP.setText(String.valueOf(patients.size()));
+    }
+
+    public void dashboardGetDoctorDisplayData() throws IOException {
+        ObservableList<Doctor> doctors = getDoctors();
+
+        dashboard_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+        dashboard_col_lastname.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String lastName = doctor.getUser().getPerson().getLastName();
+                return new SimpleStringProperty(lastName);
+            }
+        });
+        dashboard_col_specialization.setCellValueFactory(new PropertyValueFactory<>("specialization"));
+        dashboard_col_phone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String lastName = doctor.getUser().getPerson().getPhone();
+                return new SimpleStringProperty(lastName);
+            }
+        });
+        dashboard_col_qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
+        dashboard_col_room.setCellValueFactory(new PropertyValueFactory<>("qualification"));
+        dashboard_tableView.setItems(doctors);
+
+    }
+
     public MainAdminController(int adminId, String adminLogin){
         this.adminId = adminId;
         this.adminLogin = adminLogin;
@@ -216,14 +277,23 @@ public class MainAdminController implements Initializable {
             dashboard_form.setVisible(true);
             patient_form.setVisible(false);
             doctors_form.setVisible(false);
+            disease_form.setVisible(false);
         }else if(event.getSource() == doctors_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             doctors_form.setVisible(true);
+            disease_form.setVisible(false);
         }else if(event.getSource() == patients_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(true);
             doctors_form.setVisible(false);
+            disease_form.setVisible(false);
+        }
+        else if(event.getSource() == disease_btn){
+            dashboard_form.setVisible(false);
+            patient_form.setVisible(false);
+            doctors_form.setVisible(false);
+            disease_form.setVisible(true);
         }
     }
 
@@ -272,6 +342,28 @@ public class MainAdminController implements Initializable {
         Patient[] patientArray = new Gson().fromJson(responseModel.getResponseData(), Patient[].class);
         ObservableList<Patient> patients = FXCollections.observableArrayList(patientArray);
         return patients;
+    }
+
+    public ObservableList<Disease> getDisease() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Диагнозы"));
+        requestModel.setRequestType(RequestType.GETALL_DISEASES);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Disease[] diseasesArray = new Gson().fromJson(responseModel.getResponseData(), Disease[].class);
+        ObservableList<Disease> diseases = FXCollections.observableArrayList(diseasesArray);
+        return diseases;
+    }
+
+    public void diseasesShowData() throws IOException {
+        ObservableList<Disease> diseases = getDisease();
+        disease_diseaseID.setCellValueFactory(new PropertyValueFactory<>("diseaseId"));
+        disease_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        disease_symptoms.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
+        disease_treatment.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        disease_tableView.setItems(diseases);
     }
 
     public void patientsShowData() throws IOException {
@@ -520,13 +612,13 @@ public class MainAdminController implements Initializable {
                         Button editButton = new Button("Edit");
                         Button removeButton = new Button("Delete");
 
-                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
                                 + "    -fx-cursor: hand;\n"
                                 + "    -fx-text-fill: #fff;\n"
                                 + "    -fx-font-size: 14px;\n"
                                 + "    -fx-font-family: Arial;");
 
-                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #a413a1, #64308e);\n"
+                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
                                 + "    -fx-cursor: hand;\n"
                                 + "    -fx-text-fill: #fff;\n"
                                 + "    -fx-font-size: 14px;\n"
@@ -590,6 +682,90 @@ public class MainAdminController implements Initializable {
         patient_tableView.setItems(patients);
     }
 
+    public void diseaseActionButton() throws IOException {
+        ObservableList<Disease> diseases = getDisease();
+        Callback<TableColumn<Disease, String>, TableCell<Disease, String>> cellFactory = (TableColumn<Disease, String> param) -> {
+            final TableCell<Disease, String> cell = new TableCell<Disease, String>() {
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        Button editButton = new Button("Edit");
+                        Button removeButton = new Button("Delete");
+
+                        editButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        removeButton.setStyle("-fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);\n"
+                                + "    -fx-cursor: hand;\n"
+                                + "    -fx-text-fill: #fff;\n"
+                                + "    -fx-font-size: 14px;\n"
+                                + "    -fx-font-family: Arial;");
+
+                        editButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Disease disease = disease_tableView.getSelectionModel().getSelectedItem();
+                                int num = disease_tableView.getSelectionModel().getSelectedIndex();
+
+                                if ((num - 1) < -1) {
+                                    alert.errorMessage("Please select item");
+                                    return;
+                                }
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/editDiseaseForm.fxml"));
+                                EditDiseaseController formController = new EditDiseaseController(disease);
+                                loader.setController(formController);
+                                Parent root = loader.load();;
+                                Stage stage = new Stage();
+                                stage.setTitle("Edit Disease");
+                                stage.setScene(new Scene(root));
+                                stage.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                        removeButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                Disease disease = disease_tableView.getSelectionModel().getSelectedItem();
+                                int num = disease_tableView.getSelectionModel().getSelectedIndex();
+                                if ((num - 1) < -1) {
+                                    alert.errorMessage("Please select item");
+                                    return;
+                                }
+                                Request requestModel = new Request();
+                                requestModel.setRequestMessage(new Gson().toJson(disease));
+                                requestModel.setRequestType(RequestType.DELETE_DISEASE);
+                                ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                                ClientSocket.getInstance().getOut().flush();
+                                String answer = ClientSocket.getInstance().getInStream().readLine();
+                                Response responseModel = new Gson().fromJson(answer, Response.class);
+                                alert.successMessage("Данные успешно удалены");
+                                patientsShowData();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        HBox manageBtn = new HBox(editButton, removeButton);
+                        manageBtn.setAlignment(Pos.CENTER);
+                        manageBtn.setSpacing(5);
+                        setGraphic(manageBtn);
+                        setText(null);
+                    }
+                }
+            };
+
+            return cell;
+        };
+        disease_action.setCellFactory(cellFactory);
+        disease_tableView.setItems(diseases);
+    }
+
     public void addDoctor(){
         try{
 
@@ -629,6 +805,11 @@ public class MainAdminController implements Initializable {
             patientsShowData();
             doctorActionButton();
             patientActionButton();
+            diseaseActionButton();
+            dashboardGetDoctorDisplayData();
+            dashboardTP();
+            dashboardAD();
+            diseasesShowData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

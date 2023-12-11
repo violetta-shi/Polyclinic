@@ -33,6 +33,7 @@ public class ClientThread implements Runnable {
     private DoctorService doctorService = new DoctorService();
     private PatientService patientService = new PatientService();
 
+    private DiseaseService diseaseService = new DiseaseService();
 
     public ClientThread(Socket clientSocket) throws IOException {
         response = new Response();
@@ -104,6 +105,11 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(patients));
                         break;
                     }
+                    case GETALL_DISEASES:{
+                        List<Disease> diseases = diseaseService.findAllEntities();
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(diseases));
+                        break;
+                    }
                     case ADD_VISIT:{
                         break;
                     }
@@ -138,6 +144,12 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", "");
                         break;
                     }
+                    case DELETE_DISEASE:{
+                        Disease disease = gson.fromJson(request.getRequestMessage(), Disease.class);
+                        diseaseService.deleteEntity(disease);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены!");
+                        break;
+                    }
                     case EDIT_DOCTOR:{
                         Doctor doctor = gson.fromJson(request.getRequestMessage(), Doctor.class);
                         personService.updateEntity(doctor.getUser().getPerson());
@@ -149,6 +161,12 @@ public class ClientThread implements Runnable {
                     case EDIT_USER:{
                         User user = gson.fromJson(request.getRequestMessage(), User.class);
                         userService.updateEntity(user);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены!");
+                        break;
+                    }
+                    case EDIT_DISEASE:{
+                        Disease disease = gson.fromJson(request.getRequestMessage(), Disease.class);
+                        diseaseService.updateEntity(disease);
                         response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены!");
                         break;
                     }
