@@ -6,14 +6,12 @@ public class Disease implements Serializable {
     private int diseaseId;
     private String name;
     private String symptoms;
-    private String status;
     private String treatment;
 
-    public Disease(int diseaseId, String name, String symptoms, String status, String treatment) {
+    public Disease(int diseaseId, String name, String symptoms, String treatment) {
         this.diseaseId = diseaseId;
         this.name = name;
         this.symptoms = symptoms;
-        this.status = status;
         this.treatment = treatment;
     }
 
@@ -21,7 +19,6 @@ public class Disease implements Serializable {
         this.diseaseId = -1;
         this.name = "";
         this.symptoms = "";
-        this.status = "";
         this.treatment = "";
     }
 
@@ -49,13 +46,6 @@ public class Disease implements Serializable {
         this.symptoms = symptoms;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getTreatment() {
         return treatment;

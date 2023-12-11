@@ -192,6 +192,8 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Circle top_profile;
+    @FXML
+    private Button logout_btn;
 
     private AlertMessage alert = new AlertMessage();
 
@@ -586,6 +588,37 @@ public class MainAdminController implements Initializable {
         };
         patient_col_action.setCellFactory(cellFactory);
         patient_tableView.setItems(patients);
+    }
+
+    public void addDoctor(){
+        try{
+
+            Parent root = FXMLLoader.load(getClass().getResource("/addDoctorForm.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Hospital Management System | Add Doctor");
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void logOut() throws IOException {
+
+        try {
+            if (alert.confirmationMessage("Are you sure you want to logout?")) {
+                Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+                Stage stage = new Stage();
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                logout_btn.getScene().getWindow().hide();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

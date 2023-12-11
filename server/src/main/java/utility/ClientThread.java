@@ -116,6 +116,14 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", "Пациент успешно добавлен!");
                         break;
                     }
+                    case ADD_DOCTOR:{
+                        Doctor doctor =  gson.fromJson(request.getRequestMessage(), Doctor.class);
+                        personService.saveEntity(doctor.getUser().getPerson());
+                        userService.saveEntity(doctor.getUser());
+                        doctorService.saveEntity(doctor);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Пациент успешно добавлен!");
+                        break;
+                    }
                     case EDIT_PATIENT:{
                         Patient patient =  gson.fromJson(request.getRequestMessage(), Patient.class);
                         personService.updateEntity(patient.getUser().getPerson());
@@ -144,58 +152,6 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", "Данные успешно изменены!");
                         break;
                     }
-                    /*case ADD_FLIGHT:gson.fromJson(request.getRequestMessage(), Flight.class);
-                        Flight flight = gson.fromJson(request.getRequestMessage(), Flight.class);
-                        routeService.saveEntity(flight.getRoute());
-                        aircraftService.saveEntity(flight.getAircraft());
-                        flightService.saveEntity(flight);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
-                        break;
-                    case DELETE_FLIGHT:
-                        flight = gson.fromJson(request.getRequestMessage(), Flight.class);
-                        flightService.deleteEntity(flight);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
-                        break;
-                    case GET_FLIGHT:
-                        flight = gson.fromJson(request.getRequestMessage(), Flight.class);
-                        flight = flightService.findEntity(flight.getId());
-                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(flight));
-                        break;
-                    case GETALL_FLIGHT:
-                        List<Flight> flights = new ArrayList<>();
-                        List<ResultMark> result = calcCondorcet();
-                        for (ResultMark resultMark :
-                                result) {
-                            flights.add(resultMark.getFlight());
-                        }
-                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(flights));
-                        break;
-                    case UPDATE_FLIGHT:
-                        flight = gson.fromJson(request.getRequestMessage(), Flight.class);
-                        routeService.updateEntity(flight.getRoute());
-                        aircraftService.updateEntity(flight.getAircraft());
-                        flightService.updateEntity(flight);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
-                        break;
-                    case UPDATE_MARK:
-                        UserMark mark = gson.fromJson(request.getRequestMessage(), UserMark.class);
-                        userMarkService.updateEntity(mark);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
-                        break;
-                    case UPDATE_PASSENGER:
-                        Passenger passenger = gson.fromJson(request.getRequestMessage(), Passenger.class);
-                        List<Passenger> passengers = passengerService.findAllEntities();
-                        if (passengers.stream().anyMatch(x -> x.getPlaceNumber() == passenger.getPlaceNumber() && x.getId() != passenger.getId() && x.getFlight().getId()== passenger.getFlight().getId())) {
-                            response = new Response(ResponseStatus.ERROR, "Это место уже занято!", "");
-                            break;
-                        }
-                        passengerService.updateEntity(passenger);
-                        response = new Response(ResponseStatus.OK, "Готово!", "");
-                        break;
-                    case CONDORCET:
-                        result = calcCondorcet();
-                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(result));
-                        break;*/
                 }
                 out.println(gson.toJson(response));
                 out.flush();

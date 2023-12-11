@@ -28,9 +28,10 @@ public class AlertMessage {
         alert.setHeaderText(null);
         alert.setContentText(message);
         Optional<ButtonType> option = alert.showAndWait();
-        if(option.equals(ButtonType.OK)){
+
+        if (option.get().equals(ButtonType.OK)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
