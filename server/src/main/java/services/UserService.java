@@ -16,12 +16,19 @@ public class UserService implements Service<User> {
         }
         if (entity.getDoctor() != null) {
             entity.getDoctor().setUser(null);
+            entity.getDoctor().setVisits(null);
         }
         if (entity.getAdmin() != null) {
             entity.getAdmin().setUser(null);
         }
         if (entity.getPatient() != null) {
+            if(entity.getPatient().getAddress() != null){
+                entity.getPatient().getAddress().setPatients(null);
+                entity.getPatient().setVisits(null);
+                entity.getPatient().setDiseases(null);
+            }
             entity.getPatient().setUser(null);
+
         }
         return entity;
     }

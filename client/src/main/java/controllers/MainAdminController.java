@@ -25,10 +25,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import messages.AlertMessage;
-import model.Address;
-import model.Disease;
-import model.Doctor;
-import model.Patient;
+import model.*;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
@@ -144,6 +141,24 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Label nav_usermane;
+
+    @FXML
+    private TableColumn<Visit, String> visits_visitId;
+
+    @FXML
+    private TableColumn<Visit, String> visits_patientId;
+    @FXML
+    private TableColumn<Visit, String> visits_doctorId;
+    @FXML
+    private TableColumn<Visit, String> visits_comment;
+    @FXML
+    private TableColumn<Visit, String> visits_date;
+    @FXML
+    private TableColumn<Visit, String> visits_time;
+    @FXML
+    private TableColumn<Visit, String> visits_action;
+    @FXML
+    private TableView<Visit> visit_tableView;
 
     @FXML
     private TableColumn<Patient, String> patient_col_address;
@@ -492,6 +507,38 @@ public class MainAdminController implements Initializable {
         doctors_tableView.setItems(doctors);
     }
 
+    public void visitsShowData() throws IOException {
+        ObservableList<Visit> visits = null;
+        try {
+            visits = getVisits();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        visits_visitId.setCellValueFactory(new PropertyValueFactory<>("visitId"));
+            visits_patientId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                    Visit visit = param.getValue();
+                    String doctorId = String.valueOf(visit.getDoctor().getDoctorId());
+                    return new SimpleStringProperty(doctorId);
+                }
+            });
+            visits_doctorId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                    Visit visit = param.getValue();
+                    String patientId = String.valueOf(visit.getPatient().getPatientId());
+                    return new SimpleStringProperty(patientId);
+                }
+            });
+            visits_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            visits_time.setCellValueFactory(new PropertyValueFactory<>("time"));
+            visits_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+
+            visit_tableView.setItems(visits);
+    }
+
     public void doctorActionButton() throws IOException {
 
         ObservableList<Doctor> doctors = getDoctors();
@@ -780,6 +827,20 @@ public class MainAdminController implements Initializable {
         }
     }
 
+    public ObservableList<Visit> getVisits() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
+        requestModel.setRequestType(RequestType.GETALL_VISITS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Visit[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Visit[].class);
+        ObservableList<Visit> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
+
+
     public void logOut() throws IOException {
 
         try {
@@ -810,6 +871,7 @@ public class MainAdminController implements Initializable {
             dashboardTP();
             dashboardAD();
             diseasesShowData();
+            visitsShowData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

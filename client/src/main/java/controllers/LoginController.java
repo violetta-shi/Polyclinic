@@ -14,10 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import messages.AlertMessage;
-import model.Admin;
-import model.Doctor;
-import model.Person;
-import model.User;
+import model.*;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
@@ -122,6 +119,22 @@ public class LoginController implements Initializable {
                Stage stage;
                switch (role){
                    case User:
+                       requestModel.setRequestMessage(new Gson().toJson(user1));
+                       requestModel.setRequestType(RequestType.GET_PATIENT_BY_USER);
+                       ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+                       ClientSocket.getInstance().getOut().flush();
+                       answer = ClientSocket.getInstance().getInStream().readLine();
+                       responseModel = new Gson().fromJson(answer, Response.class);
+                       data = responseModel.getResponseData();
+                       Patient patient = new Gson().fromJson(data, Patient.class);
+                       loader = new FXMLLoader(getClass().getResource("/patientMainForm.fxml"));
+                       MainPatientController patientController = new MainPatientController(patient);
+                       loader.setController(patientController);
+                       root = loader.load();;
+                       stage = new Stage();
+                       stage.setTitle("Patient Portal");
+                       stage.setScene(new Scene(root));
+                       stage.show();
                        break;
                    case Admin:
                        requestModel.setRequestMessage(new Gson().toJson(user1));

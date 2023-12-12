@@ -32,8 +32,8 @@ public class ClientThread implements Runnable {
     private AddressService addressService = new AddressService();
     private DoctorService doctorService = new DoctorService();
     private PatientService patientService = new PatientService();
-
     private DiseaseService diseaseService = new DiseaseService();
+    private VisitService visitService  = new VisitService();
 
     public ClientThread(Socket clientSocket) throws IOException {
         response = new Response();
@@ -89,6 +89,24 @@ public class ClientThread implements Runnable {
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(doctor));
                         break;
                     }
+                    case GET_PATIENT:{
+                        Patient requestPatient = gson.fromJson(request.getRequestMessage(), Patient.class);
+                        Patient patient = patientService.findEntity(requestPatient.getPatientId());
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(patient));
+                        break;
+                    }
+                    case GET_PATIENT_BY_USER:{
+                        User requestUser = gson.fromJson(request.getRequestMessage(), User.class);
+                        Patient patient = patientService.findEntityByUserId(requestUser);
+                        try{
+                            gson.toJson(patient);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(patient));
+                        break;
+                    }
                     case GET_DOCTOR:{
                         Doctor requestDoctor = gson.fromJson(request.getRequestMessage(), Doctor.class);
                         Doctor doctor = doctorService.findEntity(requestDoctor.getDoctorId());
@@ -108,6 +126,11 @@ public class ClientThread implements Runnable {
                     case GETALL_DISEASES:{
                         List<Disease> diseases = diseaseService.findAllEntities();
                         response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(diseases));
+                        break;
+                    }
+                    case GETALL_VISITS:{
+                        List<Visit> visits = visitService.findAllEntities();
+                        response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(visits));
                         break;
                     }
                     case ADD_VISIT:{

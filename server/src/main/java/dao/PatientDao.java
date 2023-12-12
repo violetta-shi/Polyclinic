@@ -1,12 +1,16 @@
 package dao;
 
 import interfaces.DAO;
+import model.Doctor;
 import model.Patient;
 import model.Person;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateSessionFactory;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class PatientDao implements DAO<Patient> {
@@ -51,5 +55,24 @@ public class PatientDao implements DAO<Patient> {
         List<Patient> patientList = (List<Patient>)session.createQuery("From Patient").list();
         session.close();
         return patientList;
+    }
+
+    public Patient findByUserId(int id) {
+        Patient patient = null;
+        try {
+            Session session = HibernateSessionFactory.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Patient> cr = cb.createQuery(Patient.class);
+            Root<Patient> root = cr.from(Patient.class);
+            cr.select(root).where(cb.equal(root.get("user").get("userId"), id));
+            patient = session.createQuery(cr).uniqueResult();
+            tx.commit();
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+
+        return patient;
     }
 }
