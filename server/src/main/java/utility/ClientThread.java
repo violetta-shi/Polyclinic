@@ -134,6 +134,9 @@ public class ClientThread implements Runnable {
                         break;
                     }
                     case ADD_VISIT:{
+                        Visit visit = gson.fromJson(request.getRequestMessage(), Visit.class);
+                        visitService.saveEntity(visit);
+                        response = new Response(ResponseStatus.OK, "Готово!", "Запись успешно добавлена");
                         break;
                     }
                     case ADD_PATIENT:{

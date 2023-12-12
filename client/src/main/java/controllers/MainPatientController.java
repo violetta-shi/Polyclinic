@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import messages.AlertMessage;
 import model.Disease;
+import model.Doctor;
 import model.Patient;
 import javafx.event.ActionEvent;
 import model.Visit;
@@ -28,7 +29,10 @@ import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.BufferedWriter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,6 +55,9 @@ public class MainPatientController implements Initializable {
     private Label appointment_ad_gender;
 
     @FXML
+    private Label appointment_ad_date;
+
+    @FXML
     private Label appointment_ad_mobileNumber;
 
     @FXML
@@ -61,6 +68,8 @@ public class MainPatientController implements Initializable {
 
     @FXML
     private Label appointment_ad_specialization;
+    @FXML
+    private Label appointment_ad_room;
 
     @FXML
     private Button appointment_d_clearBtn;
@@ -72,7 +81,7 @@ public class MainPatientController implements Initializable {
     private TextArea appointment_d_description;
 
     @FXML
-    private ComboBox<?> appointment_d_doctor;
+    private ComboBox<Doctor> appointment_d_doctor;
 
     @FXML
     private DatePicker appointment_d_schedule;
@@ -208,7 +217,7 @@ public class MainPatientController implements Initializable {
 
     private Patient patient;
 
-    private AlertMessage alert;
+    private AlertMessage alert = new AlertMessage();
     public MainPatientController(Patient patient){
         this.patient = patient;
     }
@@ -320,6 +329,19 @@ public class MainPatientController implements Initializable {
         return doctors;
     }
 
+    public ObservableList<Doctor> getDoctors() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
+        requestModel.setRequestType(RequestType.GETALL_DOCTORS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Doctor[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Doctor[].class);
+        ObservableList<Doctor> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
+
     public void showVisits() throws IOException {
         ObservableList<Visit> visits = getVisits();
 
@@ -354,11 +376,88 @@ public class MainPatientController implements Initializable {
         home_appointment_tableView.setItems(visits);
     }
 
+    public void confirmBtn() throws IOException {
+        Visit visit = new Visit();
+        visit.setComment(appointment_d_description.getText());
+        Doctor doctor = new Doctor();
+        visit.setDoctor(appointment_d_doctor.getSelectionModel().getSelectedItem());
+        visit.setPatient(this.patient);
+        visit.setDate(String.valueOf(appointment_d_schedule.getValue()));
+        visit.setTime(appointment_d_doctor.getSelectionModel().getSelectedItem().getSchedule());
+
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson(visit));
+        requestModel.setRequestType(RequestType.ADD_VISIT);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+
+
+        appointment_ad_name.setText(patient.getUser().getPerson().getLastName() +
+                " " + patient.getUser().getPerson().getName().substring(0, 1) +
+                " " + patient.getUser().getPerson().getPatronymic().substring(0, 1));
+
+        appointment_ad_gender.setText(patient.getUser().getPerson().getGender());
+        appointment_ad_address.setText(String.valueOf(patient.getAddress()));
+
+        appointment_ad_description.setText(visit.getComment());
+        appointment_ad_doctorName.setText(visit.getDoctor().getUser().getPerson().getLastName() +
+                " " + visit.getDoctor().getUser().getPerson().getName().substring(0, 1) +
+                " " + visit.getDoctor().getUser().getPerson().getPatronymic().substring(0, 1));
+
+        appointment_ad_specialization.setText(visit.getDoctor().getSpecialization());
+        appointment_ad_schedule.setText(visit.getDoctor().getSchedule());
+        appointment_ad_date.setText(visit.getDate());
+        appointment_ad_room.setText(visit.getDoctor().getRoom());
+    }
+
+    public void printTicket(){
+        File file = new File("D://" + patient.getUser().getPerson().getLastName() + "Ticket.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileWriter out = new FileWriter(file, true);
+            try
+            {
+                String patientFIO = appointment_ad_name.getText();
+                out.write("Пациент - " + patientFIO + "\n");
+                out.write("Пол - " + appointment_ad_gender.getText() + "\n");
+                out.write("Описание - " + appointment_ad_description.getText() + "\n");
+                out.write(appointment_ad_specialization.getText() + "\n");
+                out.write("Доктор - " + appointment_ad_doctorName.getText() + "\n");
+                out.write("Дата - " + appointment_ad_date.getText() + "\n");
+                out.write("Смена" + appointment_ad_schedule.getText()+ "\n");
+                out.write("Кабинет" + appointment_ad_room.getText()+ "\n");
+                alert.successMessage("Талон успешно сохранен!");
+
+            }finally {
+                out.close();
+            }
+        }catch (IOException e1){
+            throw new RuntimeException();
+        }
+    }
+
+
+
+    public void appointmentDoctor() throws IOException {
+            ObservableList<Doctor> listData = getDoctors();
+            appointment_d_doctor.setItems(listData);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
         displayPatientID();
         showDiseases();
+        try {
+            appointmentDoctor();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         try {
             showVisits();
         } catch (IOException e) {

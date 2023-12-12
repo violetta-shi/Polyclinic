@@ -88,7 +88,7 @@
                     <center>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                             <children>
-                                <AnchorPane fx:id="home_form" layoutX="161.0" layoutY="112.0" prefHeight="560.0" prefWidth="886.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <AnchorPane fx:id="home_form" layoutX="161.0" layoutY="112.0" prefHeight="560.0" prefWidth="886.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
                                         <AnchorPane fx:id="disease_tableView" layoutX="14.0" layoutY="17.0" prefHeight="265.0" prefWidth="542.0" stylesheets="@styles/PatientMainFormDesign.css" AnchorPane.bottomAnchor="278.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="17.0">
                                             <styleClass>
@@ -203,7 +203,7 @@
                                         </AnchorPane>
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane fx:id="appointments_form" layoutX="5.0" layoutY="5.0" prefHeight="560.0" prefWidth="886.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <AnchorPane fx:id="appointments_form" layoutX="5.0" layoutY="5.0" prefHeight="560.0" prefWidth="886.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
                                         <AnchorPane layoutX="9.0" layoutY="12.0" prefHeight="537.0" prefWidth="513.0" stylesheets="@styles/PageDesign.css" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="364.0" AnchorPane.topAnchor="12.0">
                                             <styleClass>
@@ -222,7 +222,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_name" layoutX="87.0" layoutY="68.0" prefHeight="19.0" prefWidth="197.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="229.0" AnchorPane.topAnchor="68.0">
+                                                <Label fx:id="appointment_ad_name" layoutX="139.2" layoutY="70.4" prefHeight="19.0" prefWidth="294.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="70.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -242,7 +242,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_gender" layoutX="87.0" layoutY="98.0" prefHeight="19.0" prefWidth="197.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="229.0" AnchorPane.topAnchor="98.0">
+                                                <Label fx:id="appointment_ad_gender" layoutX="139.0" layoutY="99.0" prefHeight="19.0" prefWidth="292.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="99.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -252,7 +252,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_address" layoutX="87.0" layoutY="127.0" prefHeight="19.0" prefWidth="197.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="229.0" AnchorPane.topAnchor="127.0">
+                                                <Label fx:id="appointment_ad_address" layoutX="139.2" layoutY="127.0" prefHeight="90.0" prefWidth="305.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="69.0" AnchorPane.topAnchor="127.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -262,7 +262,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_description" layoutX="133.0" layoutY="230.0" prefHeight="19.0" prefWidth="363.0" AnchorPane.leftAnchor="133.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="230.0">
+                                                <Label fx:id="appointment_ad_description" layoutX="139.2" layoutY="231.2" prefHeight="19.0" prefWidth="338.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="231.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -272,7 +272,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_doctorName" layoutX="134.0" layoutY="260.0" prefHeight="19.0" prefWidth="364.0" AnchorPane.leftAnchor="134.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="260.0">
+                                                <Label fx:id="appointment_ad_doctorName" layoutX="152.0" layoutY="260.0" prefHeight="19.0" prefWidth="346.0" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="260.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -282,7 +282,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_specialization" layoutX="133.0" layoutY="289.0" prefHeight="19.0" prefWidth="367.0" AnchorPane.leftAnchor="133.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="289.0">
+                                                <Label fx:id="appointment_ad_specialization" layoutX="148.8" layoutY="289.0" prefHeight="19.0" prefWidth="351.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="289.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
@@ -292,12 +292,32 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="appointment_ad_schedule" layoutX="133.0" layoutY="318.0" prefHeight="19.0" prefWidth="367.0" AnchorPane.leftAnchor="133.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="318.0">
+                                                <Label fx:id="appointment_ad_schedule" layoutX="158.4" layoutY="319.2" prefHeight="19.0" prefWidth="342.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="319.0">
                                                     <font>
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Button fx:id="appointmentBookBtn" layoutX="119.0" layoutY="369.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="275.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Tikcet" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="119.0" AnchorPane.topAnchor="369.0" />
+                                                <Button fx:id="appointmentBookBtn" layoutX="119.0" layoutY="416.0" mnemonicParsing="false" onAction="#printTicket" prefHeight="35.0" prefWidth="275.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Tikcet" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="119.39999999999998" AnchorPane.topAnchor="416.0" />
+                                    <Label fx:id="visit_date" layoutX="99.0" layoutY="348.0" text="Date:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="appointment_ad_date" layoutX="149.0" layoutY="348.0" prefHeight="19.0" prefWidth="342.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="visit_date1" layoutX="95.0" layoutY="376.0" text="Room:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="appointment_ad_room" layoutX="151.0" layoutY="376.0" prefHeight="19.0" prefWidth="342.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
                                             </children>
                                         </AnchorPane>
                                         <AnchorPane layoutX="538.0" layoutY="12.0" prefHeight="537.0" prefWidth="334.0" stylesheets="@styles/PageDesign.css" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="12.0">
@@ -312,7 +332,7 @@
                                                         <Font size="13.0" />
                                                     </font>
                                                 </Label>
-                                                <Button fx:id="appointment_d_confirmBtn" layoutX="13.0" layoutY="368.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="304.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Confirm" />
+                                                <Button fx:id="appointment_d_confirmBtn" layoutX="12.0" layoutY="370.0" mnemonicParsing="false" onAction="#confirmBtn" prefHeight="35.0" prefWidth="304.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Confirm" />
                                                 <TextArea fx:id="appointment_d_description" layoutX="14.0" layoutY="88.0" prefHeight="129.0" prefWidth="301.0" styleClass="textfield-2" stylesheets="@styles/PatientMainFormDesign.css" />
                                                 <Label layoutX="14.0" layoutY="229.0" text="Doctor:">
                                                     <font>
@@ -326,7 +346,7 @@
                                                     </font>
                                                 </Label>
                                                 <DatePicker fx:id="appointment_d_schedule" layoutX="14.0" layoutY="304.0" prefHeight="25.0" prefWidth="302.0" styleClass="textfield-2" stylesheets="@styles/PatientMainFormDesign.css" />
-                                                <Button fx:id="appointment_d_clearBtn" layoutX="13.0" layoutY="416.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="304.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Clear" />
+                                                <Button fx:id="appointment_d_clearBtn" layoutX="13.0" layoutY="416.0" mnemonicParsing="false" onAction="#appointmentClearBtn" prefHeight="35.0" prefWidth="304.0" styleClass="btn-3" stylesheets="@styles/PatientMainFormDesign.css" text="Clear" />
                                                 <Label layoutX="14.0" layoutY="14.0" styleClass="header-2" stylesheets="@styles/PatientMainFormDesign.css" text="Details">
                                                     <font>
                                                         <Font size="18.0" />

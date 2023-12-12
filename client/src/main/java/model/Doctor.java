@@ -88,4 +88,11 @@ public class Doctor implements Serializable {
     public void setVisits(Set<Visit> visits) {
         this.visits = visits;
     }
+
+    @Override
+    public String toString() {
+        return
+                doctorId + " " + specialization + ':' + user.getPerson().getLastName() +
+                ' ';
+    }
 }

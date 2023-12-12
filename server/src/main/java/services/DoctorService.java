@@ -21,6 +21,15 @@ public class DoctorService implements Service<Doctor> {
         if(entity.getUser() != null){
             entity.getUser().setDoctor(null);
         }
+        if(entity.getVisits() != null){
+            List<Visit> visits = new ArrayList<>();
+            for(Visit visit : entity.getVisits()){
+                visit.setDoctor(null);
+                visit.setPatient(null);
+                visits.add(visit);
+            }
+            entity.setVisits(visits);
+        }
         return entity;
     }
 
@@ -71,6 +80,15 @@ public class DoctorService implements Service<Doctor> {
         }
         if(doctor.getUser() != null){
             doctor.getUser().setDoctor(null);
+        }
+        if(doctor.getVisits() != null){
+            List<Visit> visits = new ArrayList<>();
+            for(Visit visit : doctor.getVisits()){
+                visit.setDoctor(null);
+                visit.setPatient(null);
+                visits.add(visit);
+            }
+            doctor.setVisits(visits);
         }
         return doctor;
     }

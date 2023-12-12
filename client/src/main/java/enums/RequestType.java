@@ -21,5 +21,5 @@ public enum RequestType {
     GET_PATIENT,
     GET_PATIENT_BY_USER,
     GETALL_VISITS,
-    DELETE_PATIENT
+    ADD_VISIT, DELETE_PATIENT
 }
