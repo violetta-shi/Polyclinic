@@ -1,20 +1,34 @@
 package controllers;
 
+import com.google.gson.Gson;
+import enums.RequestType;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import messages.AlertMessage;
+import model.Disease;
 import model.Patient;
 import javafx.event.ActionEvent;
+import model.Visit;
+import tcp.Request;
+import tcp.Response;
+import utility.ClientSocket;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,25 +105,25 @@ public class MainPatientController implements Initializable {
     private ScrollPane doctors_scrollPane;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_appointmenID;
+    private TableColumn<Visit, Integer> home_appointment_col_appointmenID;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_description;
+    private TableColumn<Visit, String> home_appointment_col_description;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_diagnosis;
+    private TableColumn<Visit, String> home_appointment_col_diagnosis;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_doctor;
+    private TableColumn<Visit, String> home_appointment_col_doctor;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_schedule;
+    private TableColumn<Visit, String> home_appointment_col_schedule;
 
     @FXML
-    private TableColumn<?, ?> home_appointment_col_treatment;
+    private TableColumn<Visit, String> home_appointment_col_treatment;
 
     @FXML
-    private TableView<?> home_appointment_tableView;
+    private TableView<Visit> home_appointment_tableView;
 
     @FXML
     private Circle home_doctor_circle;
@@ -130,19 +144,19 @@ public class MainPatientController implements Initializable {
     private AnchorPane home_form;
 
     @FXML
-    private TableColumn<?, ?> home_patient_col_dateIn;
+    private TableColumn<Disease, String> home_patient_col_dateIn;
 
     @FXML
-    private TableColumn<?, ?> home_patient_col_description;
+    private TableColumn<Disease, String> home_patient_col_description;
 
     @FXML
-    private TableColumn<?, ?> home_patient_col_diagnosis;
+    private TableColumn<Disease, String> home_patient_col_diagnosis;
 
     @FXML
-    private TableColumn<?, ?> home_patient_col_treatment;
+    private TableColumn<Disease, String> home_patient_col_treatment;
 
     @FXML
-    private TableView<?> home_patient_tableView;
+    private TableView<Disease> home_patient_tableView;
 
     @FXML
     private Button logout_btn;
@@ -270,9 +284,85 @@ public class MainPatientController implements Initializable {
 
     public void displayPatientID(){
         nav_adminID.setText(String.valueOf(patient.getPatientId()));
+        top_username.setText(patient.getUser().getLogin());
     }
+
+    public void appointmentClearBtn() {
+        appointment_d_doctor.getSelectionModel().clearSelection();
+        appointment_d_description.clear();
+        appointment_d_schedule.setValue(null);
+
+        appointment_ad_description.setText("");
+        appointment_ad_doctorName.setText("");
+        appointment_ad_specialization.setText("");
+        appointment_ad_schedule.setText("");
+    }
+
+    public void showDiseases(){
+        ObservableList<Disease> diseases =  FXCollections.observableArrayList(patient.getDiseases());
+        home_patient_col_description.setCellValueFactory(new PropertyValueFactory<>("name"));
+        home_patient_col_diagnosis.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
+        home_patient_col_treatment.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        //home_patient_col_dateIn.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+        home_patient_tableView.setItems(diseases);
+    }
+
+    public ObservableList<Visit> getVisits() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти визиты"));
+        requestModel.setRequestType(RequestType.GETALL_VISITS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Visit[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Visit[].class);
+        ObservableList<Visit> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
+
+    public void showVisits() throws IOException {
+        ObservableList<Visit> visits = getVisits();
+
+        home_appointment_col_appointmenID.setCellValueFactory(new PropertyValueFactory<>("visitId"));
+        home_appointment_col_description.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                String specialization = visit.getDoctor().getSpecialization();
+                return new SimpleStringProperty(specialization);
+            }
+        });
+        home_appointment_col_diagnosis.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                String specialization = visit.getDoctor().getUser().getPerson().getLastName();
+                return new SimpleStringProperty(specialization);
+            }
+        });
+        home_appointment_col_treatment.setCellValueFactory(new PropertyValueFactory<>("date"));
+        home_appointment_col_doctor.setCellValueFactory(new PropertyValueFactory<>("time"));
+        home_appointment_col_schedule.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                String specialization = visit.getDoctor().getRoom();
+                return new SimpleStringProperty(specialization);
+            }
+        });
+
+        home_appointment_tableView.setItems(visits);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        runTime();
+        displayPatientID();
+        showDiseases();
+        try {
+            showVisits();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

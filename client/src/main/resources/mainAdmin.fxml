@@ -369,7 +369,7 @@
                               </TableView>
                               <Button fx:id="disease_addBtn" layoutX="375.0" layoutY="512.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="154.0" styleClass="btn-l" stylesheets="@styles/PageDesign.css" text="Add Disease" AnchorPane.bottomAnchor="11.200000000000045" AnchorPane.leftAnchor="375.0" AnchorPane.rightAnchor="347.19999999999993" />
                            </children></AnchorPane>
-                        <AnchorPane layoutX="6.0" layoutY="24.0" prefHeight="526.0" prefWidth="866.0" stylesheets="@styles/DoctorMainFormDesign.css">
+                        <AnchorPane layoutX="6.0" layoutY="24.0" prefHeight="526.0" prefWidth="866.0" stylesheets="@styles/DoctorMainFormDesign.css" visible="false">
                            <styleClass>
                               <String fx:value="white_bg" />
                               <String fx:value="radius" />

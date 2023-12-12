@@ -840,7 +840,6 @@ public class MainAdminController implements Initializable {
         return doctors;
     }
 
-
     public void logOut() throws IOException {
 
         try {
