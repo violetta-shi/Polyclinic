@@ -332,7 +332,6 @@ public class MainAdminController implements Initializable {
         }.start();
     }
 
-
     public ObservableList<Doctor> getDoctors() throws IOException {
         Request requestModel = new Request();
         requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));

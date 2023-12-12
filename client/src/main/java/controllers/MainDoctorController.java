@@ -3,6 +3,8 @@ package controllers;
 import com.google.gson.Gson;
 import enums.RequestType;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,9 +16,11 @@ import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import messages.AlertMessage;
 import model.*;
 import tcp.Request;
@@ -27,36 +31,23 @@ import javax.print.Doc;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainDoctorController implements Initializable {
     @FXML
-    private TableColumn<?, ?> appoitment_col_AppoitmentID;
-
+    private TableColumn<Visit, Integer> visits_visitId;
     @FXML
-    private TableColumn<?, ?> appoitment_col_date;
-
+    private TableColumn<Visit, String> visits_doctorId;
     @FXML
-    private TableColumn<?, ?> appoitment_col_description;
-
+    private TableColumn<Visit, String> visits_patientId;
     @FXML
-    private TableColumn<?, ?> appoitment_col_disease;
-
+    private TableColumn<Visit, String> visits_comment;
     @FXML
-    private TableColumn<?, ?> appoitment_col_doctorID;
-
+    private TableColumn<Visit, String> visits_date;
     @FXML
-    private TableColumn<?, ?> appoitment_col_patientID;
-
+    private TableColumn<Visit, String> visits_disease;
     @FXML
-    private TableColumn<?, ?> appoitment_col_status;
-
-    @FXML
-    private TableColumn<?, ?> appoitment_col_treatment;
-
+    private TableColumn<Visit, String> visits_status;
     @FXML
     private TextField appoitment_date;
 
@@ -94,7 +85,7 @@ public class MainDoctorController implements Initializable {
     private Button appoitments_btn;
 
     @FXML
-    private TableView<?> appoitments_tableView;
+    private TableView<Visit> appoitments_tableView;
     @FXML
     private TextField appoitment_appoitmentID;
 
@@ -199,34 +190,34 @@ public class MainDoctorController implements Initializable {
     private Label nav_usermane;
 
     @FXML
-    private TableColumn<?, ?> patient_col_address;
+    private TableColumn<Patient, String> patient_col_address;
 
     @FXML
-    private TableColumn<?, ?> patient_col_date;
+    private TableColumn<Patient, String> patient_col_date;
 
     @FXML
-    private TableColumn<?, ?> patient_col_gender;
+    private TableColumn<Patient, String> patient_col_gender;
 
     @FXML
-    private TableColumn<?, ?> patient_col_lastname;
+    private TableColumn<Patient, String> patient_col_lastname;
 
     @FXML
-    private TableColumn<?, ?> patient_col_name;
+    private TableColumn<Patient, String> patient_col_name;
 
     @FXML
-    private TableColumn<?, ?> patient_col_pasportID;
+    private TableColumn<Patient, String> patient_col_pasportID;
 
     @FXML
-    private TableColumn<?, ?> patient_col_patientID;
+    private TableColumn<Patient, Integer> patient_col_patientID;
 
     @FXML
-    private TableColumn<?, ?> patient_col_patronymic;
+    private TableColumn<Patient, String> patient_col_patronymic;
 
     @FXML
-    private TableColumn<?, ?> patient_col_phone;
+    private TableColumn<Patient, String> patient_col_phone;
 
     @FXML
-    private TableColumn<?, ?> patient_col_status;
+    private TableColumn<Patient, String> patient_col_status;
 
     @FXML
     private AnchorPane patient_form;
@@ -236,7 +227,7 @@ public class MainDoctorController implements Initializable {
     private Button patinet_btn;
 
     @FXML
-    private TableView<?> patient_tableView;
+    private TableView<Patient> patient_tableView;
 
     @FXML
     private Label patinet_PA_ID;
@@ -515,6 +506,31 @@ public class MainDoctorController implements Initializable {
        doctor = new Gson().fromJson(data, Doctor.class);
        return doctor;
    }
+
+    public ObservableList<Patient> getPatients() throws IOException{
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти пациентов"));
+        requestModel.setRequestType(RequestType.GETALL_PATIENTS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Patient[] patientArray = new Gson().fromJson(responseModel.getResponseData(), Patient[].class);
+        ObservableList<Patient> patients = FXCollections.observableArrayList(patientArray);
+        return patients;
+    }
+    public ObservableList<Visit> getVisits() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
+        requestModel.setRequestType(RequestType.GETALL_VISITS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Visit[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Visit[].class);
+        ObservableList<Visit> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
     public void changePassword() throws IOException {
         Doctor doctor = getDoctor();
         if (!ps_newPassword.getText().equals(ps_oldPasswordRepeate.getText())){
@@ -596,7 +612,112 @@ public class MainDoctorController implements Initializable {
         patinet_patientGender.setItems(list);
         }
 
+    public void visitsShowData() throws IOException {
+        ObservableList<Visit> visits = null;
+        try {
+            visits = getVisits();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        visits_visitId.setCellValueFactory(new PropertyValueFactory<>("visitId"));
+        visits_doctorId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                String doctorId = String.valueOf(visit.getDoctor().getDoctorId());
+                return new SimpleStringProperty(doctorId);
+            }
+        });
+        visits_patientId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                String patientId = String.valueOf(visit.getPatient().getPatientId());
+                return new SimpleStringProperty(patientId);
+            }
+        });
+        visits_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        visits_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        visits_disease.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Visit, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Visit, String> param) {
+                Visit visit = param.getValue();
+                Set<Disease> diseaseSet = visit.getPatient().getDiseases();
+                String disease = "";
+                for(Disease disease1:diseaseSet){
+                    disease += disease1.getName();
+                    disease += " ";
+                }
+                return new SimpleStringProperty(disease);
+            }
+        });
 
+        appoitments_tableView.setItems(visits);
+    }
+    public void patientsShowData() throws IOException {
+        ObservableList<Patient> patients = getPatients();
+
+        patient_col_patientID.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+        patient_col_name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getUser().getPerson().getName();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_lastname.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getUser().getPerson().getLastName();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_patronymic.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getUser().getPerson().getPatronymic();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_gender.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getUser().getPerson().getGender();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_phone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getUser().getPerson().getPhone();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_date.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                String name = patient.getBirthDate();
+                return new SimpleStringProperty(name);
+            }
+        });
+        patient_col_pasportID.setCellValueFactory(new PropertyValueFactory<>("passportId"));
+        patient_col_address.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Patient, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Patient, String> param) {
+                Patient patient = param.getValue();
+                Address address = patient.getAddress();
+                return new SimpleStringProperty(address.toString());
+            }
+        });
+        patient_tableView.setItems(patients);
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
@@ -605,6 +726,8 @@ public class MainDoctorController implements Initializable {
         patientGenderList();
         try {
             showPS();
+            patientsShowData();
+            visitsShowData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
