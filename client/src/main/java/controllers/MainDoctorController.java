@@ -744,7 +744,16 @@ public class MainDoctorController implements Initializable {
         return diseases;
     }
 
+    public void setDiseaseCombo() throws IOException {
+        ObservableList<Disease> diseases = getDisease();
+        disease_combo.setItems(diseases);
+    }
+
     public void setDisease() throws IOException {
+        if(appoitments_tableView.getSelectionModel().getSelectedItem() == null){
+            alertMessage.errorMessage("Выберите пациента");
+            return;
+        }
         Visit visit = appoitments_tableView.getSelectionModel().getSelectedItem();
         Patient patient = visit.getPatient();
         Set<Disease> diseases = patient.getDiseases();
@@ -782,6 +791,7 @@ public class MainDoctorController implements Initializable {
             showPS();
             patientsShowData();
             visitsShowData();
+            setDiseaseCombo();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -47,11 +47,13 @@ public class DiseaseService implements Service<Disease> {
                 patient.getAddress().setPatients(null);
                 patient.getUser().getPerson().setUser(null);
                 List<Visit> visits = new ArrayList<>();
-                for(Visit visit : patient.getVisits()){
-                    visit.setDoctor(null);
-                    visit.setPatient(null);
+                if (patient.getVisits() != null) {
+                    for(Visit visit : patient.getVisits()){
+                        visit.setDoctor(null);
+                        visit.setPatient(null);
+                    }
+                    patient.setVisits(null);
                 }
-                patient.setVisits(null);
             }
         }
         return diseases;
