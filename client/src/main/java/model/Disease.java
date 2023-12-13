@@ -54,4 +54,11 @@ public class Disease implements Serializable {
     public void setTreatment(String treatment) {
         this.treatment = treatment;
     }
+
+    @Override
+    public String toString() {
+        return
+                diseaseId +
+                " " + name;
+    }
 }

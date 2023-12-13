@@ -441,7 +441,6 @@ public class MainPatientController implements Initializable {
     }
 
 
-
     public void appointmentDoctor() throws IOException {
             ObservableList<Doctor> listData = getDoctors();
             appointment_d_doctor.setItems(listData);

@@ -14,9 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -35,6 +33,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainAdminController implements Initializable {
@@ -200,6 +200,8 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private Button patients_btn;
+    @FXML
+    private AreaChart<String, Number> dashboad_chart_PD;
 
     @FXML
     private Button payment_btn;
@@ -235,6 +237,9 @@ public class MainAdminController implements Initializable {
 
     @FXML
     private AnchorPane disease_form;
+
+    @FXML
+    private AnchorPane visits_form;
 
     @FXML
     private Button disease_btn;
@@ -287,28 +292,68 @@ public class MainAdminController implements Initializable {
         top_username.setText(adminLogin);
     }
 
+    public void dashboardPatientDataChart() throws IOException {
+        /*Map<Integer, Integer> yearCountMap = new HashMap<>();
+
+        ObservableList<Patient> patients = getPatients();
+        for (Patient patient : patients) {
+            int birthYear = Integer.parseInt(patient.getBirthDate().substring(0, 4));
+            if (yearCountMap.containsKey(birthYear)) {
+                yearCountMap.put(birthYear, yearCountMap.get(birthYear) + 1);
+            } else {
+                yearCountMap.put(birthYear, 1);
+            }
+        }
+        XYChart.Series chart = new XYChart.Series<>();
+        for (Map.Entry<Integer, Integer> entry : yearCountMap.entrySet()) {
+            String year = entry.getKey().toString();
+            int count = entry.getValue();
+            chart.getData().add(new XYChart.Data<>(year, count));
+        }
+        chart.getData().add(new XYChart.Data<>("2004", 100));
+        chart.getData().add(new XYChart.Data<>("2003", 50));
+        dashboad_chart_PD.getData().add(chart);*/
+
+        //dashboad_chart_PD.getData().clear();
+        XYChart.Series chart = new XYChart.Series<>();
+        chart.getData().add(new XYChart.Data<>("2004", 10));
+        chart.getData().add(new XYChart.Data<>("2003", 20));
+            dashboad_chart_PD.getData().add(chart);
+    }
+
     public void switchForm(ActionEvent event) throws IOException {
         if(event.getSource() == dashboard_btn){
             dashboard_form.setVisible(true);
             patient_form.setVisible(false);
             doctors_form.setVisible(false);
             disease_form.setVisible(false);
+            visits_form.setVisible(false);
         }else if(event.getSource() == doctors_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             doctors_form.setVisible(true);
             disease_form.setVisible(false);
+            visits_form.setVisible(false);
         }else if(event.getSource() == patients_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(true);
             doctors_form.setVisible(false);
             disease_form.setVisible(false);
+            visits_form.setVisible(false);
         }
         else if(event.getSource() == disease_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             doctors_form.setVisible(false);
             disease_form.setVisible(true);
+            visits_form.setVisible(false);
+        }
+        else if(event.getSource() == appoitments_btn){
+            dashboard_form.setVisible(false);
+            patient_form.setVisible(false);
+            doctors_form.setVisible(false);
+            disease_form.setVisible(false);
+            visits_form.setVisible(true);
         }
     }
 

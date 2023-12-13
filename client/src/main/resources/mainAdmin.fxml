@@ -85,22 +85,22 @@
                            </font>
                         </Label>
                         <Line endX="100.0" layoutX="108.0" layoutY="150.0" startX="-100.0" />
-                        <Button fx:id="dashboard_btn" layoutX="6.0" layoutY="188.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Dashboard">
+                        <Button fx:id="dashboard_btn" layoutX="6.0" layoutY="188.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Статистика">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
                            </styleClass></Button>
-                        <Button fx:id="doctors_btn" layoutX="5.0" layoutY="240.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Doctors">
+                        <Button fx:id="doctors_btn" layoutX="5.0" layoutY="240.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Доктора">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
                            </styleClass></Button>
-                        <Button fx:id="patients_btn" layoutX="5.0" layoutY="294.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Patients">
+                        <Button fx:id="patients_btn" layoutX="5.0" layoutY="294.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Пациенты">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
                            </styleClass></Button>
-                        <Button fx:id="appoitments_btn" layoutX="6.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Visits">
+                        <Button fx:id="appoitments_btn" layoutX="6.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Визиты">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
@@ -115,13 +115,13 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Button fx:id="profile_btn" layoutX="5.0" layoutY="479.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Profile Settings">
+                        <Button fx:id="profile_btn" layoutX="5.0" layoutY="479.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Настройки профиля">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
                            </styleClass>
                         </Button>
-                        <Button fx:id="disease_btn" layoutX="6.0" layoutY="402.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Disease">
+                        <Button fx:id="disease_btn" layoutX="6.0" layoutY="402.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" stylesheets="@styles/AdminMainPageDesign.css" text="Диагнозы">
                            <styleClass>
                               <String fx:value="nav-btn-l" />
                               <String fx:value="btn-l" />
@@ -158,7 +158,7 @@
                                                          </image>
                                                       </ImageView>
                                                       <Label fx:id="dashboard_AD" alignment="CENTER_RIGHT" layoutX="163.0" layoutY="14.0" prefHeight="18.0" prefWidth="45.0" text="0" textFill="WHITE" />
-                                                      <Label layoutX="112.0" layoutY="89.0" text="Active Doctor" textFill="WHITE">
+                                                      <Label layoutX="98.0" layoutY="89.0" text="Количество докторов" textFill="WHITE">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
@@ -172,25 +172,11 @@
                                                    </styleClass>
                                                    <children>
                                                       <Label fx:id="dashboard_TP" alignment="CENTER_RIGHT" layoutX="150.0" layoutY="12.0" prefHeight="18.0" prefWidth="57.0" text="0" textFill="WHITE" />
-                                                      <Label layoutX="121.0" layoutY="90.0" text="Total Patients" textFill="WHITE">
+                                                      <Label layoutX="96.0" layoutY="88.0" text="Количество пациентов" textFill="WHITE">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane layoutX="671.0" layoutY="14.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/AdminMainPageDesign.css">
-                                                   <styleClass>
-                                                      <String fx:value="bg-color-l" />
-                                                      <String fx:value="radius" />
-                                                   </styleClass>
-                                                   <children>
-                                                      <Label layoutX="112.0" layoutY="88.0" text="Active Patients" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="dashboard_AP" alignment="CENTER_RIGHT" layoutX="128.0" layoutY="13.0" prefHeight="18.0" prefWidth="73.0" text="0" textFill="WHITE" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane layoutX="992.0" layoutY="14.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/AdminMainPageDesign.css">
@@ -199,7 +185,7 @@
                                                       <String fx:value="radius" />
                                                    </styleClass>
                                                    <children>
-                                                      <Label layoutX="112.0" layoutY="88.0" text="Total Appoitment" textFill="WHITE">
+                                                      <Label layoutX="112.0" layoutY="88.0" text="Количество визитов" textFill="WHITE">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
@@ -263,12 +249,12 @@
                                        <children>
                                           <TableView fx:id="dashboard_tableView" layoutX="7.0" layoutY="41.0" prefHeight="262.0" prefWidth="402.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="41.0">
                                             <columns>
-                                              <TableColumn fx:id="dashboard_col_doctorID" prefWidth="75.0" text="Doctor ID" />
-                                              <TableColumn fx:id="dashboard_col_lastname" prefWidth="75.0" text="Lastname" />
-                                                <TableColumn fx:id="dashboard_col_specialization" prefWidth="85.60003662109375" text="Specialization" />
-                                                <TableColumn fx:id="dashboard_col_qualification" prefWidth="85.60003662109375" text="Qualification" />
-                                                <TableColumn fx:id="dashboard_col_room" prefWidth="44.800048828125" text="Room" />
-                                                <TableColumn fx:id="dashboard_col_phone" prefWidth="63.99996337890627" text="Phone" />
+                                              <TableColumn fx:id="dashboard_col_doctorID" prefWidth="75.0" text="ID Доктора" />
+                                              <TableColumn fx:id="dashboard_col_lastname" prefWidth="75.0" text="Фамилия" />
+                                                <TableColumn fx:id="dashboard_col_specialization" prefWidth="85.60003662109375" text="Специализация" />
+                                                <TableColumn fx:id="dashboard_col_qualification" prefWidth="85.60003662109375" text="Квалификация" />
+                                                <TableColumn fx:id="dashboard_col_room" prefWidth="44.800048828125" text="Кабинет" />
+                                                <TableColumn fx:id="dashboard_col_phone" prefWidth="63.99996337890627" text="Телефон" />
                                             </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -292,16 +278,16 @@
                                  <children>
                                     <TableView fx:id="patient_tableView" layoutX="14.0" layoutY="72.0" prefHeight="446.0" prefWidth="808.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="18.40000000000009" AnchorPane.leftAnchor="13.600000000000023" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="72.00000000000011">
                                       <columns>
-                                        <TableColumn fx:id="patient_col_patientID" prefWidth="63.999988198280334" text="Patient ID" />
-                                        <TableColumn fx:id="patient_col_name" prefWidth="72.79998779296875" text="Name" />
-                                          <TableColumn fx:id="patient_col_lastname" prefWidth="76.0" text="Lastname" />
-                                          <TableColumn fx:id="patient_col_patronymic" prefWidth="72.79997253417969" text="Patronymic" />
-                                          <TableColumn fx:id="patient_col_gender" prefWidth="61.5999755859375" text="Gender" />
-                                          <TableColumn fx:id="patient_col_phone" prefWidth="75.19998168945312" text="Phone" />
-                                          <TableColumn fx:id="patient_col_date" prefWidth="45.60003662109375" text="Date" />
-                                          <TableColumn fx:id="patient_col_pasportID" prefWidth="162.39996337890625" text="Passport ID" />
-                                          <TableColumn fx:id="patient_col_address" prefWidth="168.0" text="Address" />
-                                          <TableColumn fx:id="patient_col_action" prefWidth="84.800048828125" text="Action" />
+                                        <TableColumn fx:id="patient_col_patientID" prefWidth="63.999988198280334" text="ID Пациента" />
+                                        <TableColumn fx:id="patient_col_name" prefWidth="72.79998779296875" text="Имя" />
+                                          <TableColumn fx:id="patient_col_lastname" prefWidth="76.0" text="Фамилия" />
+                                          <TableColumn fx:id="patient_col_patronymic" prefWidth="72.79997253417969" text="Отчество" />
+                                          <TableColumn fx:id="patient_col_gender" prefWidth="61.5999755859375" text="Пол" />
+                                          <TableColumn fx:id="patient_col_phone" prefWidth="75.19998168945312" text="Телефон" />
+                                          <TableColumn fx:id="patient_col_date" prefWidth="45.60003662109375" text="Д.Р." />
+                                          <TableColumn fx:id="patient_col_pasportID" prefWidth="162.39996337890625" text="Паспорт" />
+                                          <TableColumn fx:id="patient_col_address" prefWidth="168.0" text="Адрес" />
+                                          <TableColumn fx:id="patient_col_action" prefWidth="84.800048828125" text="Действие" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -327,17 +313,17 @@
                                  <children>
                                     <TableView fx:id="doctors_tableView" layoutX="14.4" layoutY="72.0" prefHeight="447.0" prefWidth="830.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="13.6" AnchorPane.rightAnchor="30.399999999999977" AnchorPane.topAnchor="72.0">
                                        <columns>
-                                          <TableColumn fx:id="doctors_col_doctorID" prefWidth="75.0" text="Doctor ID" />
-                                          <TableColumn fx:id="doctors_col_name" prefWidth="75.0" text="Name" />
-                                          <TableColumn fx:id="doctors_col_lastname" prefWidth="75.0" text="Lastname" />
-                                          <TableColumn fx:id="doctors_col_patronymic" prefWidth="75.0" text="Patronymic" />
-                                          <TableColumn fx:id="doctors_col_gender" prefWidth="75.0" text="Gender" />
-                                          <TableColumn fx:id="doctors_col_phone" prefWidth="75.0" text="Phone" />
-                                          <TableColumn fx:id="doctors_col_specialization" prefWidth="75.0" text="Specialization" />
-                                          <TableColumn fx:id="doctors_col_qualification" prefWidth="93.59991455078125" text="Qualification" />
-                                          <TableColumn fx:id="doctors_col_room" prefWidth="49.5999755859375" text="Room" />
-                                          <TableColumn fx:id="doctors_col_workPone" minWidth="0.0" prefWidth="85.5999755859375" text="Work Phone" />
-                                          <TableColumn fx:id="doctors_col_action" minWidth="0.0" prefWidth="68.00006103515625" text="Action" />
+                                          <TableColumn fx:id="doctors_col_doctorID" prefWidth="75.0" text="ID доктора" />
+                                          <TableColumn fx:id="doctors_col_name" prefWidth="75.0" text="Имя" />
+                                          <TableColumn fx:id="doctors_col_lastname" prefWidth="75.0" text="Фамилия" />
+                                          <TableColumn fx:id="doctors_col_patronymic" prefWidth="75.0" text="Отчество" />
+                                          <TableColumn fx:id="doctors_col_gender" prefWidth="75.0" text="Пол" />
+                                          <TableColumn fx:id="doctors_col_phone" prefWidth="75.0" text="Телефон" />
+                                          <TableColumn fx:id="doctors_col_specialization" prefWidth="75.0" text="Специализация" />
+                                          <TableColumn fx:id="doctors_col_qualification" prefWidth="93.59991455078125" text="Квалификация" />
+                                          <TableColumn fx:id="doctors_col_room" prefWidth="49.5999755859375" text="Кабинет" />
+                                          <TableColumn fx:id="doctors_col_workPone" minWidth="0.0" prefWidth="85.5999755859375" text="Рабочий телефон" />
+                                          <TableColumn fx:id="doctors_col_action" minWidth="0.0" prefWidth="68.00006103515625" text="Действие" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -348,28 +334,32 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="addDoctorBtn" layoutX="699.0" layoutY="26.0" mnemonicParsing="false" onAction="#addDoctor" prefHeight="26.0" prefWidth="93.0" styleClass="btn-l" stylesheets="@styles/AdminMainPageDesign.css" text="Add Doctor" />
+                                    <Button fx:id="addDoctorBtn" layoutX="661.0" layoutY="26.0" mnemonicParsing="false" onAction="#addDoctor" prefHeight="26.0" prefWidth="132.0" styleClass="btn-l" text="Добавить доктора">
+                                       <stylesheets>
+                                          <URL value="@styles/AdminMainPageDesign.css" />
+                                          <URL value="@styles/PageDesign.css" />
+                                       </stylesheets></Button>
                                  </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="disease_form" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="disease_form" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <TableView fx:id="disease_tableView" layoutX="34.0" layoutY="31.0" prefHeight="466.0" prefWidth="808.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="61.80000000000007" AnchorPane.leftAnchor="34.39999999999998" AnchorPane.rightAnchor="34.799999999999955" AnchorPane.topAnchor="31.200000000000045">
                                  <columns>
-                                    <TableColumn fx:id="disease_diseaseID" prefWidth="75.0" text="Disease ID" />
-                                    <TableColumn fx:id="disease_name" prefWidth="75.0" text="Name" />
-                                    <TableColumn fx:id="disease_symptoms" prefWidth="75.0" text="Symptoms" />
-                                    <TableColumn fx:id="disease_treatment" prefWidth="75.0" text="Treatment" />
-                                    <TableColumn fx:id="disease_action" minWidth="6.4000244140625" prefWidth="42.4000244140625" text="Action" />
+                                    <TableColumn fx:id="disease_diseaseID" prefWidth="75.0" text="ID Заболевания" />
+                                    <TableColumn fx:id="disease_name" prefWidth="75.0" text="Название" />
+                                    <TableColumn fx:id="disease_symptoms" prefWidth="75.0" text="Симптомы" />
+                                    <TableColumn fx:id="disease_treatment" prefWidth="75.0" text="Рекомендации" />
+                                    <TableColumn fx:id="disease_action" minWidth="6.4000244140625" prefWidth="42.4000244140625" text="Действие" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Button fx:id="disease_addBtn" layoutX="375.0" layoutY="512.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="154.0" styleClass="btn-l" stylesheets="@styles/PageDesign.css" text="Add Disease" AnchorPane.bottomAnchor="11.200000000000045" AnchorPane.leftAnchor="375.0" AnchorPane.rightAnchor="347.19999999999993" />
+                              <Button fx:id="disease_addBtn" layoutX="375.0" layoutY="512.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="154.0" styleClass="btn-l" stylesheets="@styles/PageDesign.css" text="Добавить заболевание" AnchorPane.bottomAnchor="11.200000000000045" AnchorPane.leftAnchor="375.0" AnchorPane.rightAnchor="347.19999999999993" />
                            </children></AnchorPane>
-                        <AnchorPane layoutX="6.0" layoutY="24.0" prefHeight="526.0" prefWidth="866.0" stylesheets="@styles/DoctorMainFormDesign.css" visible="false">
+                        <AnchorPane fx:id="visits_form" layoutX="6.0" layoutY="24.0" prefHeight="526.0" prefWidth="866.0" stylesheets="@styles/DoctorMainFormDesign.css" visible="false">
                            <styleClass>
                               <String fx:value="white_bg" />
                               <String fx:value="radius" />
@@ -378,13 +368,13 @@
                            <children>
                               <TableView fx:id="visit_tableView" layoutX="14.0" layoutY="47.2" prefHeight="466.0" prefWidth="846.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="47.0">
                                  <columns>
-                                    <TableColumn fx:id="visits_visitId" prefWidth="75.0" text="Visit ID" />
-                                    <TableColumn fx:id="visits_patientId" prefWidth="75.0" text="PatientID" />
-                                    <TableColumn fx:id="visits_doctorId" prefWidth="75.0" text="DoctorID" />
-                                    <TableColumn fx:id="visits_comment" prefWidth="75.0" text="Comment" />
-                                    <TableColumn fx:id="visits_date" prefWidth="75.0" text="Date" />
-                                    <TableColumn fx:id="visits_time" prefWidth="64.800048828125" text="Time" />
-                                    <TableColumn fx:id="visits_action" minWidth="6.4000244140625" prefWidth="137.5999755859375" text="Action" />
+                                    <TableColumn fx:id="visits_visitId" prefWidth="75.0" text="ID Визита" />
+                                    <TableColumn fx:id="visits_patientId" prefWidth="75.0" text="ID Пациента" />
+                                    <TableColumn fx:id="visits_doctorId" prefWidth="75.0" text="ID Доктора" />
+                                    <TableColumn fx:id="visits_comment" prefWidth="75.0" text="Комментарий" />
+                                    <TableColumn fx:id="visits_date" prefWidth="75.0" text="Дата" />
+                                    <TableColumn fx:id="visits_time" prefWidth="64.800048828125" text="Смена" />
+                                    <TableColumn fx:id="visits_action" minWidth="6.4000244140625" prefWidth="137.5999755859375" text="Действие" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

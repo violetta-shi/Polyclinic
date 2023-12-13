@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import messages.AlertMessage;
 import model.*;
+import org.jetbrains.annotations.NotNull;
 import tcp.Request;
 import tcp.Response;
 import utility.ClientSocket;
@@ -338,6 +339,9 @@ public class MainDoctorController implements Initializable {
     @FXML
     private Button ps_changeLoginBtn;
 
+    @FXML
+    private ComboBox<Disease> disease_combo;
+
 
     /*@FXML
     private ComboBox<String> patinet_patientGender;*/
@@ -349,7 +353,6 @@ public class MainDoctorController implements Initializable {
         this.doctorID = doctorID;
         this.doctorLogin = doctorLogin;
     }
-
     @FXML
     void switchForm(ActionEvent event) {
         if(event.getSource() == dashboard_btn){
@@ -372,7 +375,8 @@ public class MainDoctorController implements Initializable {
             appoitment_form.setVisible(false);
             singlePatinet_form.setVisible(false);
             profile_settings_form.setVisible(false);
-        }else if(event.getSource() == patinet_btn){
+        }
+        else if(event.getSource() == patinet_btn){
             dashboard_form.setVisible(false);
             patient_form.setVisible(false);
             appoitment_form.setVisible(false);
@@ -529,8 +533,15 @@ public class MainDoctorController implements Initializable {
         Response responseModel = new Gson().fromJson(answer, Response.class);
         Visit[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Visit[].class);
         ObservableList<Visit> doctors = FXCollections.observableArrayList(doctorArray);
-        return doctors;
+        ObservableList<Visit> visits = FXCollections.observableArrayList();
+        for(Visit visit : doctors){
+            if(visit.getDoctor().getDoctorId() == this.doctorID){
+                visits.add(visit);
+            }
+        }
+        return visits;
     }
+
     public void changePassword() throws IOException {
         Doctor doctor = getDoctor();
         if (!ps_newPassword.getText().equals(ps_oldPasswordRepeate.getText())){
@@ -717,6 +728,49 @@ public class MainDoctorController implements Initializable {
         });
         patient_tableView.setItems(patients);
 
+    }
+
+    public ObservableList<Disease> getDisease() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Диагнозы"));
+        requestModel.setRequestType(RequestType.GETALL_DISEASES);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Disease[] diseasesArray = new Gson().fromJson(responseModel.getResponseData(), Disease[].class);
+        ObservableList<Disease> diseases = FXCollections.observableArrayList(diseasesArray);
+        disease_combo.setItems(diseases);
+        return diseases;
+    }
+
+    public void setDisease() throws IOException {
+        Visit visit = appoitments_tableView.getSelectionModel().getSelectedItem();
+        Patient patient = visit.getPatient();
+        Set<Disease> diseases = patient.getDiseases();
+        diseases.add(disease_combo.getValue());
+        patient.setDiseases(diseases);
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson(patient));
+        requestModel.setRequestType(RequestType.EDIT_PATIENT);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+    }
+
+    public void givePrescription() throws IOException {
+        Visit visit = appoitments_tableView.getSelectionModel().getSelectedItem();
+        Patient patient = visit.getPatient();
+        Doctor doctor = visit.getDoctor();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/prescriptionForm.fxml"));
+        GivePrescriptionController controller = new GivePrescriptionController(doctor, patient);
+        loader.setController(controller);
+        Parent root = loader.load();;
+        Stage stage = new Stage();
+        stage.setTitle("Admin Portal");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
