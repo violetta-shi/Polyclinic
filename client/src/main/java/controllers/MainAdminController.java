@@ -201,7 +201,7 @@ public class MainAdminController implements Initializable {
     @FXML
     private Button patients_btn;
     @FXML
-    private AreaChart<String, Number> dashboad_chart_PD;
+    private AreaChart<Number, Number> dashboad_chart_PD;
 
     @FXML
     private Button payment_btn;
@@ -248,6 +248,11 @@ public class MainAdminController implements Initializable {
     public void dashboardAD() throws IOException {
         ObservableList<Doctor> doctors = getDoctors();
         dashboard_AD.setText(String.valueOf(doctors.size()));
+    }
+
+    public void dashboardTA() throws IOException {
+        ObservableList<Visit> visits = getVisits();
+        dashboard_TA.setText(String.valueOf(visits.size()));
     }
 
     public void dashboardTP() throws IOException {
@@ -314,11 +319,15 @@ public class MainAdminController implements Initializable {
         chart.getData().add(new XYChart.Data<>("2003", 50));
         dashboad_chart_PD.getData().add(chart);*/
 
-        //dashboad_chart_PD.getData().clear();
-        XYChart.Series chart = new XYChart.Series<>();
-        chart.getData().add(new XYChart.Data<>("2004", 10));
-        chart.getData().add(new XYChart.Data<>("2003", 20));
-            dashboad_chart_PD.getData().add(chart);
+        XYChart.Series<Number, Number> chart = new XYChart.Series<>();
+        chart.getData().add(new XYChart.Data<>(2000, 100));
+        chart.getData().add(new XYChart.Data<>(2003, 20));
+        chart.getData().add(new XYChart.Data<>(2005, 120));
+        chart.getData().add(new XYChart.Data<>(2006, 80));
+        dashboad_chart_PD = new AreaChart<>( new NumberAxis(), new NumberAxis());
+        dashboad_chart_PD.getData().add(chart);
+
+        chart.getData();
     }
 
     public void switchForm(ActionEvent event) throws IOException {
@@ -618,7 +627,7 @@ public class MainAdminController implements Initializable {
                                 int num = doctors_tableView.getSelectionModel().getSelectedIndex();
 
                                 if ((num - 1) < -1) {
-                                    alert.errorMessage("Please select item first");
+                                    alert.errorMessage("Выберите доктора");
                                     return;
                                 }
 
@@ -641,7 +650,7 @@ public class MainAdminController implements Initializable {
                             int num = doctors_tableView.getSelectionModel().getSelectedIndex();
 
                             if ((num - 1) < -1) {
-                                alert.errorMessage("Please select item first");
+                                alert.errorMessage("Выберите доктора");
                                 return;
                             }
                             Request requestModel = new Request();
@@ -658,9 +667,9 @@ public class MainAdminController implements Initializable {
                             Response responseModel = new Gson().fromJson(answer, Response.class);
 
                             try {
-                                if (alert.confirmationMessage("Are you sure you want to delete Doctor ID: " + pData.getDoctorId() + "?")) {
+                                if (alert.confirmationMessage("ВЫ уверены, что хотите удалить доктора с : " + pData.getDoctorId() + "?")) {
 
-                                    alert.successMessage("Deleted Successfully!");
+                                    alert.successMessage("Успешно удалено");
 
                                 }
                             } catch (Exception e) {
@@ -721,7 +730,7 @@ public class MainAdminController implements Initializable {
                                 int num = patient_tableView.getSelectionModel().getSelectedIndex();
 
                                 if ((num - 1) < -1) {
-                                    alert.errorMessage("Please select item");
+                                    alert.errorMessage("Выберите пациента");
                                     return;
                                 }
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/editPatientForm.fxml"));
@@ -742,7 +751,7 @@ public class MainAdminController implements Initializable {
                                 Patient patient = patient_tableView.getSelectionModel().getSelectedItem();
                                 int num = patient_tableView.getSelectionModel().getSelectedIndex();
                                 if ((num - 1) < -1) {
-                                    alert.errorMessage("Please select item");
+                                    alert.errorMessage("Выберите пациента");
                                     return;
                                 }
                                 Request requestModel = new Request();
@@ -887,7 +896,7 @@ public class MainAdminController implements Initializable {
     public void logOut() throws IOException {
 
         try {
-            if (alert.confirmationMessage("Are you sure you want to logout?")) {
+            if (alert.confirmationMessage("Вы уверены, что хотите выйти?")) {
                 Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
                 Stage stage = new Stage();
 
@@ -900,6 +909,7 @@ public class MainAdminController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
@@ -915,6 +925,8 @@ public class MainAdminController implements Initializable {
             dashboardAD();
             diseasesShowData();
             visitsShowData();
+            dashboardTA();
+            dashboardPatientDataChart();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

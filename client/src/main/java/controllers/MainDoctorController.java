@@ -29,6 +29,8 @@ import tcp.Response;
 import utility.ClientSocket;
 
 import javax.print.Doc;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -87,52 +89,6 @@ public class MainDoctorController implements Initializable {
 
     @FXML
     private TableView<Visit> appoitments_tableView;
-    @FXML
-    private TextField appoitment_appoitmentID;
-
-    @FXML
-    private Button appoitment_clearBtn;
-
-    @FXML
-    private TableColumn<?, ?> appoitment_col_PassportID;
-
-    @FXML
-    private TableColumn<?, ?> appoitment_col_address;
-
-    @FXML
-    private TableColumn<?, ?> appoitment_col_contact;
-
-
-    @FXML
-    private TableColumn<?, ?> appoitment_col_dateModify;
-
-    @FXML
-    private TextField appoitment_diagnosist;
-
-    @FXML
-    private TextField appoitment_district;
-
-    @FXML
-    private TextField appoitment_flatNum;
-
-    @FXML
-    private ComboBox<?> appoitment_gender;
-
-    @FXML
-    private TextField appoitment_houseNum;
-    @FXML
-    private TextField appoitment_lastname;
-
-    @FXML
-    private TextField appoitment_sity;
-
-    @FXML
-    private TextField appoitment_street;
-    @FXML
-    private Label current_form;
-
-    @FXML
-    private Label current_form1;
 
     @FXML
     private Label dashboard_AD;
@@ -155,28 +111,28 @@ public class MainDoctorController implements Initializable {
     private AreaChart<?, ?> dashboard_chat_PD;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_doctorID;
+    private TableColumn<Doctor, Integer> dashboard_col_doctorID;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_lastname;
+    private TableColumn<Doctor, String> dashboard_col_lastname;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_phone;
+    private TableColumn<Doctor, String> dashboard_col_phone;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_qualification;
+    private TableColumn<Doctor, String> dashboard_col_qualification;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_room;
+    private TableColumn<Doctor, String> dashboard_col_room;
 
     @FXML
-    private TableColumn<?, ?> dashboard_col_specialization;
+    private TableColumn<Doctor, String> dashboard_col_specialization;
 
     @FXML
     private AnchorPane dashboard_form;
 
     @FXML
-    private TableView<?> dashboard_tableView;
+    private TableView<Doctor> dashboard_tableView;
 
     @FXML
     private Label date_time;
@@ -348,6 +304,34 @@ public class MainDoctorController implements Initializable {
     private int doctorID;
     private String doctorLogin;
     private AlertMessage alertMessage = new AlertMessage();
+
+    public ObservableList<Doctor> getDoctors() throws IOException {
+        Request requestModel = new Request();
+        requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
+        requestModel.setRequestType(RequestType.GETALL_DOCTORS);
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(requestModel));
+        ClientSocket.getInstance().getOut().flush();
+        String answer = ClientSocket.getInstance().getInStream().readLine();
+        Response responseModel = new Gson().fromJson(answer, Response.class);
+        Doctor[] doctorArray = new Gson().fromJson(responseModel.getResponseData(), Doctor[].class);
+        ObservableList<Doctor> doctors = FXCollections.observableArrayList(doctorArray);
+        return doctors;
+    }
+
+    public void dashboardAD() throws IOException {
+        ObservableList<Doctor> doctors = getDoctors();
+        dashboard_AD.setText(String.valueOf(doctors.size()));
+    }
+
+    public void dashboardTA() throws IOException {
+        ObservableList<Visit> visits = getVisits();
+        dashboard_TA.setText(String.valueOf(visits.size()));
+    }
+
+    public void dashboardTP() throws IOException {
+        ObservableList<Patient> patients = getPatients();
+        dashboard_TP.setText(String.valueOf(patients.size()));
+    }
 
     public MainDoctorController(int doctorID, String doctorLogin){
         this.doctorID = doctorID;
@@ -523,6 +507,7 @@ public class MainDoctorController implements Initializable {
         ObservableList<Patient> patients = FXCollections.observableArrayList(patientArray);
         return patients;
     }
+
     public ObservableList<Visit> getVisits() throws IOException {
         Request requestModel = new Request();
         requestModel.setRequestMessage(new Gson().toJson("Найти докторов"));
@@ -781,6 +766,89 @@ public class MainDoctorController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    public void analyses(){
+        if(appoitments_tableView.getSelectionModel().getSelectedItem() == null){
+            alertMessage.errorMessage("Выберите пациента");
+            return;
+        }
+        Visit visit = appoitments_tableView.getSelectionModel().getSelectedItem();
+        Patient patient = visit.getPatient();
+        Doctor doctor = visit.getDoctor();
+        File file = new File("D://" + patient.getUser().getPerson().getLastName() + "Analyses.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileWriter out = new FileWriter(file, true);
+            try
+            {
+                AlertMessage alert = new AlertMessage();
+                out.write("Направление на анализы"+ "\n");
+                out.write("Выдано пациенту " + patient.getUser().getPerson().getLastName() + " ");
+                out.write("Врачом " + doctor.getUser().getPerson().getLastName() + "\n");
+                out.write("Уровень гемоглобина " + "\n");
+                out.write("Уровень эритроцитов" + "\n");
+                out.write("Уровень лейкоцитов" + "\n");
+                out.write("Уровень трамбоцитов" + "\n");
+                out.write("Уровень гематокрита" + "\n");
+                out.write(String.valueOf(new Date()));
+                alert.successMessage("Направление успешно сохранен!");
+
+            }finally {
+                out.close();
+            }
+        }catch (IOException e1){
+            throw new RuntimeException();
+        }
+    }
+
+    @FXML
+    private Button logout_btn;
+    public void logOut() throws IOException {
+        AlertMessage alert = new AlertMessage();
+        try {
+            if (alert.confirmationMessage("Are you sure you want to logout?")) {
+                Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+                Stage stage = new Stage();
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                logout_btn.getScene().getWindow().hide();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dashboardGetDoctorDisplayData() throws IOException {
+        ObservableList<Doctor> doctors = getDoctors();
+
+        dashboard_col_doctorID.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+        dashboard_col_lastname.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String lastName = doctor.getUser().getPerson().getLastName();
+                return new SimpleStringProperty(lastName);
+            }
+        });
+        dashboard_col_specialization.setCellValueFactory(new PropertyValueFactory<>("specialization"));
+        dashboard_col_phone.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Doctor, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Doctor, String> param) {
+                Doctor doctor = param.getValue();
+                String lastName = doctor.getUser().getPerson().getPhone();
+                return new SimpleStringProperty(lastName);
+            }
+        });
+        dashboard_col_qualification.setCellValueFactory(new PropertyValueFactory<>("qualification"));
+        dashboard_col_room.setCellValueFactory(new PropertyValueFactory<>("qualification"));
+        dashboard_tableView.setItems(doctors);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
@@ -792,6 +860,10 @@ public class MainDoctorController implements Initializable {
             patientsShowData();
             visitsShowData();
             setDiseaseCombo();
+            dashboardAD();
+            dashboardTA();
+            dashboardTP();
+            dashboardGetDoctorDisplayData();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

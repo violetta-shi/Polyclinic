@@ -246,22 +246,15 @@ public class MainPatientController implements Initializable {
 
         if (event.getSource() == dashboard_btn) {
             home_form.setVisible(true);
-            doctors_form.setVisible(false);
             appointments_form.setVisible(false);
             profile_form.setVisible(false);
-        } else if (event.getSource() == doctors_btn) {
+        }
+        else if (event.getSource() == appointments_btn) {
             home_form.setVisible(false);
-            doctors_form.setVisible(true);
-            appointments_form.setVisible(false);
-            profile_form.setVisible(false);
-        } else if (event.getSource() == appointments_btn) {
-            home_form.setVisible(false);
-            doctors_form.setVisible(false);
             appointments_form.setVisible(true);
             profile_form.setVisible(false);
         } else if (event.getSource() == profile_btn) {
             home_form.setVisible(false);
-            doctors_form.setVisible(false);
             appointments_form.setVisible(false);
             profile_form.setVisible(true);
         }
@@ -447,11 +440,20 @@ public class MainPatientController implements Initializable {
 
     }
 
+    public void setProfile(){
+        profile_label_patientID.setText(String.valueOf(patient.getPatientId()));
+        profile_label_name.setText(patient.getUser().getPerson().getLastName() + " "
+        + patient.getUser().getPerson().getName().substring(0, 1) + ". "
+                + patient.getUser().getPerson().getPatronymic().substring(0, 1) + ".");
+        profile_label_mobileNumber.setText(patient.getUser().getPerson().getPhone());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         runTime();
         displayPatientID();
         showDiseases();
+        setProfile();
         try {
             appointmentDoctor();
         } catch (IOException e) {

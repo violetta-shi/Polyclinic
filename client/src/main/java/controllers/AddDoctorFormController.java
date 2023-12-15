@@ -104,7 +104,7 @@ public class AddDoctorFormController implements Initializable {
             listG.add(data);
         }
         ObservableList list = FXCollections.observableList(listG);
-        editDoctor_shedule.setItems(list);
+        editDoctor_gender.setItems(list);
     }
 
     public void addBtn() throws IOException {

@@ -187,13 +187,13 @@ public class LoginController implements Initializable {
 
     public void registerAccount() throws IOException {
         if(register_username.getText().isEmpty() || register_password.getText().isEmpty() || register_passwordRepeat.getText().isEmpty()){
-            alert.errorMessage("please fill all blank fields");
+            alert.errorMessage("Заполните все поля!");
         }
         else if( !register_password.getText().equals(register_passwordRepeat.getText())){
-            alert.errorMessage("passwords don't match");
+            alert.errorMessage("Пароли не совпадают");
         }
         else if(register_password.getText().length() < 8){
-            alert.errorMessage("Invalid password, at least 8 characters needed!");
+            alert.errorMessage("Пароль должен содержать минимум 8 символов!");
         }
         else{
             User user = new User();

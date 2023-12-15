@@ -53,6 +53,7 @@
                         </Label>
                         <Label fx:id="date_time" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="686.0" layoutY="11.0" prefHeight="18.0" prefWidth="180.0" text="MM.DD.YYYY" AnchorPane.rightAnchor="340.0" />
                         <Label fx:id="current_form" layoutX="238.0" layoutY="12.8" prefHeight="18.0" prefWidth="194.0" styleClass="header-2" stylesheets="@styles/DoctorMainFormDesign.css" text="DashboardForm" AnchorPane.leftAnchor="238.0" AnchorPane.topAnchor="12.0" />
+                        <Button fx:id="logout_btn" layoutX="420.0" layoutY="12.0" mnemonicParsing="false" onAction="#logOut" prefHeight="23.0" prefWidth="86.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="LogOut" />
                      </children>
                      <styleClass>
                         <String fx:value="white-bg" />
@@ -127,7 +128,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashboard_form" layoutX="95.0" layoutY="43.0" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard_form" layoutX="95.0" layoutY="43.0" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="19.0" layoutY="15.0" prefHeight="160.0" prefWidth="851.0" stylesheets="@styles/AdminMainPageDesign.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
                                  <styleClass>
@@ -159,7 +160,7 @@
                                                       </Label>
                                                    </children>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="351.0" layoutY="14.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/DoctorMainFormDesign.css">
+                                                <AnchorPane layoutX="533.0" layoutY="18.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/DoctorMainFormDesign.css">
                                                    <styleClass>
                                                       <String fx:value="bg-color-2" />
                                                       <String fx:value="radius" />
@@ -171,20 +172,6 @@
                                                             <Font size="13.0" />
                                                          </font>
                                                       </Label>
-                                                   </children>
-                                                </AnchorPane>
-                                                <AnchorPane layoutX="671.0" layoutY="14.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/DoctorMainFormDesign.css">
-                                                   <styleClass>
-                                                      <String fx:value="bg-color-2" />
-                                                      <String fx:value="radius" />
-                                                   </styleClass>
-                                                   <children>
-                                                      <Label layoutX="112.0" layoutY="88.0" text="Active Patients" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label fx:id="dashboard_AP" alignment="CENTER_RIGHT" layoutX="128.0" layoutY="13.0" prefHeight="18.0" prefWidth="73.0" text="0" textFill="WHITE" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane layoutX="992.0" layoutY="14.0" prefHeight="122.0" prefWidth="240.0" stylesheets="@styles/DoctorMainFormDesign.css">
@@ -410,7 +397,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="appoitment_form" prefHeight="559.2" prefWidth="876.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="appoitment_form" prefHeight="559.2" prefWidth="876.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="314.0" prefWidth="848.0" stylesheets="@styles/DoctorMainFormDesign.css" AnchorPane.bottomAnchor="230.4000000000001" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.399999999999977" AnchorPane.topAnchor="14.0">
                                  <styleClass>
@@ -452,7 +439,7 @@
                                     <ComboBox fx:id="appoitment_status" layoutX="98.0" layoutY="81.0" prefWidth="150.0" styleClass="bg-color-2" stylesheets="@styles/DoctorMainFormDesign.css" />
                                     <Label alignment="CENTER_RIGHT" layoutX="6.0" layoutY="84.0" prefHeight="18.0" prefWidth="78.0" text="Status:" textAlignment="RIGHT" />
                                     <Button fx:id="appoitment_insertBtn1" layoutX="480.0" layoutY="28.0" mnemonicParsing="false" onAction="#givePrescription" prefHeight="36.0" prefWidth="174.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Выписать рецепт" />
-                                    <Button fx:id="appoitment_insertBtn11" layoutX="452.0" layoutY="107.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="229.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Направление на анлизы" />
+                                    <Button fx:id="appoitment_insertBtn11" layoutX="452.0" layoutY="107.0" mnemonicParsing="false" onAction="#analyses" prefHeight="36.0" prefWidth="229.0" styleClass="btn-2" stylesheets="@styles/DoctorMainFormDesign.css" text="Направление на анлизы" />
                                     <ComboBox fx:id="disease_combo" layoutX="98.0" layoutY="24.0" prefWidth="150.0" />
                                  </children>
                               </AnchorPane>
